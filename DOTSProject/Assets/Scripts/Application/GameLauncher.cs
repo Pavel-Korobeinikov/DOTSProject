@@ -4,6 +4,7 @@ using Application.MessageLog.LogHandlers;
 using Configuration;
 using Configuration.Providers;
 using Model;
+using UnityEngine;
 using ViewModel;
 
 namespace Application
