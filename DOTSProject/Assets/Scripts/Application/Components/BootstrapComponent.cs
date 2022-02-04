@@ -2,6 +2,7 @@
 
 namespace Application.Components
 {
+	[RequireComponent(typeof(LaunchDataComponent))]
 	public class BootstrapComponent : MonoBehaviour
 	{
 		[SerializeField] private LaunchDataComponent _launchData = default;

@@ -14,12 +14,12 @@ namespace Editor
 			serializedObject.Update();
 
 			EditorGUI.BeginChangeCheck();
-			var newScene = EditorGUILayout.ObjectField("scene", oldScene, typeof(SceneAsset), false) as SceneAsset;
+			var newScene = EditorGUILayout.ObjectField("Scene", oldScene, typeof(SceneAsset), false) as SceneAsset;
 
 			if (EditorGUI.EndChangeCheck())
 			{
 				var newPath = AssetDatabase.GetAssetPath(newScene);
-				var scenePathProperty = serializedObject.FindProperty("scenePath");
+				var scenePathProperty = serializedObject.FindProperty("AssetPath");
 				scenePathProperty.stringValue = newPath;
 			}
 			serializedObject.ApplyModifiedProperties();
