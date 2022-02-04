@@ -1,15 +1,15 @@
-﻿using System.Threading.Tasks;
-using Configuration.Structure;
+﻿using Configuration.Structure;
+using Cysharp.Threading.Tasks;
 
 namespace Configuration.Providers
 {
 	public class ScriptableObjectConfigurationProvider : IConfigurationProvider
 	{
-		public async Task<GameConfiguration> LoadConfiguration()
+		public async UniTask<GameConfiguration> LoadConfiguration()
 		{
 			//TODO: Load configuration
 
-			await Task.CompletedTask;
+			await UniTask.CompletedTask;
 			
 			return new GameConfiguration();
 		}

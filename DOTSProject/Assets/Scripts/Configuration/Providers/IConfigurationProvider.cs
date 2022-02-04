@@ -1,10 +1,10 @@
-﻿using System.Threading.Tasks;
-using Configuration.Structure;
+﻿using Configuration.Structure;
+using Cysharp.Threading.Tasks;
 
 namespace Configuration.Providers
 {
 	public interface IConfigurationProvider
 	{
-		public Task<GameConfiguration> LoadConfiguration();
+		public UniTask<GameConfiguration> LoadConfiguration();
 	}
 }

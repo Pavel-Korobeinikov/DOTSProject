@@ -1,6 +1,6 @@
-﻿using System.Threading.Tasks;
-using Configuration.Providers;
+﻿using Configuration.Providers;
 using Configuration.Structure;
+using Cysharp.Threading.Tasks;
 
 namespace Configuration
 {
@@ -15,7 +15,7 @@ namespace Configuration
 			_configurationProvider = configurationProvider;
 		}
 
-		public async Task Initialize()
+		public async UniTask Initialize()
 		{
 			GameConfiguration = await _configurationProvider.LoadConfiguration();
 		}
