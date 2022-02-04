@@ -2,21 +2,26 @@ using System.Threading.Tasks;
 using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
 using Configuration;
-using Configuration.Providers;
+using Configuration.Providers.ScriptableObjectConfiguration;
 using Model;
-using UnityEngine;
 using ViewModel;
 
 namespace Application
 {
 	public class GameLauncher
 	{
+		private LaunchData _launchData;
 		private ConfigurationLoader _configurationLoader;
 		private GameModel _gameModel;
 		private GameViewModel _gameViewModel;
 		
 		private bool _isLaunched;
-    
+
+		public GameLauncher(LaunchData launchData)
+		{
+			_launchData = launchData;
+		}
+
 		public async Task Launch()
 		{
 			if (_isLaunched)
@@ -35,7 +40,7 @@ namespace Application
 			var currentLogger = new UnityMessageLogHandler();
 			MessageLogger.LogHandler = currentLogger;
 
-			var configurationProvider = new ScriptableObjectConfigurationProvider();
+			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
 			_configurationLoader = new ConfigurationLoader(configurationProvider);
 			
 			_gameModel = new GameModel();

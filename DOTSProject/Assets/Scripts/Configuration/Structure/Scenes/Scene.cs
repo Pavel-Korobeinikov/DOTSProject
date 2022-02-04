@@ -1,9 +1,12 @@
-﻿using UnityEngine;
-
-namespace Configuration.Structure.Scenes
+﻿namespace Configuration.Structure.Scenes
 {
-	public class Scene : ScriptableObject
+	public class Scene
 	{
-		public string AssetPath = default;
+		public string AssetPath { get; }
+
+		public Scene(string assetPath)
+		{
+			AssetPath = assetPath;
+		}
 	}
 }

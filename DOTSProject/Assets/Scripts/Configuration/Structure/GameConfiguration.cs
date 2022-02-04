@@ -1,7 +1,14 @@
-﻿namespace Configuration.Structure
+﻿using Configuration.Structure.Scenes;
+
+namespace Configuration.Structure
 {
 	public class GameConfiguration
 	{
-		//TODO: Fill Configs
+		public Scene MainScene { get; }
+
+		public GameConfiguration(Scene mainScene)
+		{
+			MainScene = mainScene;
+		}
 	}
 }
