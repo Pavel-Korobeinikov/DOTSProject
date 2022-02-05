@@ -35,7 +35,7 @@ namespace Application.Launcher
 
 			CreateDependencies();
 			await RegisterServices();
-			await InitializeGameComponents();
+			await Initialize();
 			await StartGame();
 
 			_isLaunched = true;
@@ -62,9 +62,8 @@ namespace Application.Launcher
 			_launchScenario = new MainMenuLaunchScenario(_serviceManager, _configurationService);
 		}
 
-		private async UniTask InitializeGameComponents()
+		private async UniTask Initialize()
 		{
-			await _configurationService.Initialize();
 			//TODO: Load data from saves/server and give it to gameModel
 			await _gameModel.Initialize();
 		}
