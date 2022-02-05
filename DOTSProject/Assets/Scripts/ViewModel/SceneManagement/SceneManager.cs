@@ -10,9 +10,9 @@ namespace ViewModel.SceneManagement
 	public class SceneManager
 	{
 		private readonly SceneLoader _sceneLoader;
-		private readonly List<SceneViewModel> _activeScenes = new List<SceneViewModel>();
+		private readonly List<ISceneViewModel> _activeScenes = new List<ISceneViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		private readonly List<UniTask<SceneViewModel>> _taskSceneCache = new List<UniTask<SceneViewModel>>();
+		private readonly List<UniTask<ISceneViewModel>> _taskSceneCache = new List<UniTask<ISceneViewModel>>();
 
 		public SceneManager()
 		{
@@ -70,11 +70,21 @@ namespace ViewModel.SceneManagement
 			}
 
 			var loadedScenes = await UniTask.WhenAll(_taskSceneCache);
-
+			
 			foreach (var scene in loadedScenes)
 			{
 				_activeScenes.Add(scene);
 			}
+			
+			_taskCache.Clear();
+			foreach (var activeScene in _activeScenes)
+			{
+				activeScene.Initialize();
+				var activateTask = activeScene.Activate();
+				_taskCache.Add(activateTask);
+			}
+			
+			await UniTask.WhenAll(_taskCache);
 		}
 	}
 }

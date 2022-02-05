@@ -8,7 +8,7 @@ namespace Configuration
 	{
 		private readonly IConfigurationProvider _configurationProvider;
 
-		public GameConfigurationEntity GameConfiguration { get; set; }
+		public GameConfigurationEntity GameConfiguration { get; private set; }
 
 		public ConfigurationLoader(IConfigurationProvider configurationProvider)
 		{

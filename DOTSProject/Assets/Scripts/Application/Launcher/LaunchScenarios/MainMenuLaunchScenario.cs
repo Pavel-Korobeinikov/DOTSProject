@@ -1,4 +1,4 @@
-﻿using Configuration.Structure;
+﻿using Configuration;
 using Cysharp.Threading.Tasks;
 using ViewModel.SceneManagement;
 
@@ -7,19 +7,19 @@ namespace Application.Launcher.LaunchScenarios
 	public class MainMenuLaunchScenario : ILaunchScenario
 	{
 		private readonly SceneManager _sceneManager;
-		private readonly GameConfigurationEntity _gameConfigurationEntity;
+		private readonly ConfigurationLoader _configurationLoader;
 
 		public MainMenuLaunchScenario(
 			SceneManager sceneManager,
-			GameConfigurationEntity gameConfigurationEntity)
+			ConfigurationLoader configurationLoader)
 		{
 			_sceneManager = sceneManager;
-			_gameConfigurationEntity = gameConfigurationEntity;
+			_configurationLoader = configurationLoader;
 		}
 
 		public async UniTask Launch()
 		{
-			await _sceneManager.ActivateScene(_gameConfigurationEntity.MainScene, ActivationSceneMode.Single);
+			await _sceneManager.ActivateScene(_configurationLoader.GameConfiguration.MainScene, ActivationSceneMode.Single);
 		}
 	}
 }

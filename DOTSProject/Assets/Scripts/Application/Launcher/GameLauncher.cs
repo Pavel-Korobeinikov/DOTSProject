@@ -4,6 +4,7 @@ using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
 using Configuration;
 using Configuration.Providers.ScriptableObjectConfiguration;
+using Cysharp.Threading.Tasks;
 using Model;
 using ViewModel.SceneManagement;
 
@@ -24,7 +25,7 @@ namespace Application.Launcher
 			_launchData = launchData;
 		}
 
-		public async Task Launch()
+		public async UniTask Launch()
 		{
 			if (_isLaunched)
 			{
@@ -33,7 +34,7 @@ namespace Application.Launcher
 
 			CreateDependencies();
 			await Initialize();
-			StartGame();
+			await StartGame();
 
 			_isLaunched = true;
 		}
@@ -45,23 +46,22 @@ namespace Application.Launcher
 
 			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
 			_configurationLoader = new ConfigurationLoader(configurationProvider);
-			var configuration = _configurationLoader.GameConfiguration;
 			
 			_gameModel = new GameModel();
 			_sceneManager = new SceneManager();
-			_launchScenario = new MainMenuLaunchScenario(_sceneManager, configuration);
+			_launchScenario = new MainMenuLaunchScenario(_sceneManager, _configurationLoader);
 		}
 
-		private async Task Initialize()
+		private async UniTask Initialize()
 		{
 			await _configurationLoader.Initialize();
 			//TODO: Load data from saves/server and give it to gameModel
 			await _gameModel.Initialize();
 		}
 
-		private void StartGame()
+		private async UniTask StartGame()
 		{
-			_launchScenario.Launch();
+			await _launchScenario.Launch();
 		}
 	}
 }
