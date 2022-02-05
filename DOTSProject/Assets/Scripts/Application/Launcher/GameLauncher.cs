@@ -1,12 +1,11 @@
-using System.Threading.Tasks;
 using Application.Launcher.LaunchScenarios;
 using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
-using Configuration;
 using Configuration.Providers.ScriptableObjectConfiguration;
 using Cysharp.Threading.Tasks;
 using Model;
 using Services;
+using Services.Configuration;
 using Services.SceneManagement;
 
 namespace Application.Launcher
@@ -14,7 +13,7 @@ namespace Application.Launcher
 	public class GameLauncher
 	{
 		private readonly LaunchData _launchData;
-		private ConfigurationLoader _configurationLoader;
+		private ConfigurationService _configurationService;
 		private GameModel _gameModel;
 		private ServiceManager _serviceManager;
 		private ILaunchScenario _launchScenario;
@@ -35,16 +34,19 @@ namespace Application.Launcher
 			}
 
 			CreateDependencies();
-			RegisterServices();
+			await RegisterServices();
 			await InitializeGameComponents();
 			await StartGame();
 
 			_isLaunched = true;
 		}
 
-		private void RegisterServices()
+		private async UniTask RegisterServices()
 		{
-			_serviceManager.RegisterService<ISceneService>(new SceneService());
+			await _serviceManager.RegisterService<ISceneService>(new SceneService());
+
+			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
+			await _serviceManager.RegisterService<IConfigurationService>(new ConfigurationService(configurationProvider));
 		}
 
 		private void CreateDependencies()
@@ -53,16 +55,16 @@ namespace Application.Launcher
 			MessageLogger.LogHandler = currentLogger;
 
 			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
-			_configurationLoader = new ConfigurationLoader(configurationProvider);
+			_configurationService = new ConfigurationService(configurationProvider);
 			
 			_serviceManager = new ServiceManager();
 			_gameModel = new GameModel();
-			_launchScenario = new MainMenuLaunchScenario(_serviceManager, _configurationLoader);
+			_launchScenario = new MainMenuLaunchScenario(_serviceManager, _configurationService);
 		}
 
 		private async UniTask InitializeGameComponents()
 		{
-			await _configurationLoader.Initialize();
+			await _configurationService.Initialize();
 			//TODO: Load data from saves/server and give it to gameModel
 			await _gameModel.Initialize();
 		}

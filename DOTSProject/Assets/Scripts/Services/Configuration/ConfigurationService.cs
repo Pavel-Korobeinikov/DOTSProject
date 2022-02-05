@@ -2,15 +2,15 @@
 using Configuration.Structure;
 using Cysharp.Threading.Tasks;
 
-namespace Configuration
+namespace Services.Configuration
 {
-	public class ConfigurationLoader
+	public class ConfigurationService : IConfigurationService, IInitializable
 	{
 		private readonly IConfigurationProvider _configurationProvider;
 
 		public GameConfigurationEntity GameConfiguration { get; private set; }
 
-		public ConfigurationLoader(IConfigurationProvider configurationProvider)
+		public ConfigurationService(IConfigurationProvider configurationProvider)
 		{
 			_configurationProvider = configurationProvider;
 		}

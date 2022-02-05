@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Application.MessageLog;
+using Cysharp.Threading.Tasks;
 
 namespace Services
 {
@@ -8,11 +9,16 @@ namespace Services
 	{
 		private readonly Dictionary<Type, IService> _services = new Dictionary<Type, IService>();
 		
-		public void RegisterService<T>(T serviceObject) where T : class, IService
+		public async UniTask RegisterService<T>(T serviceObject) where T : class, IService
 		{
 			if (_services.TryGetValue(typeof(T), out var service))
 			{
 				MessageLogger.LogError("Service already registered.");
+			}
+
+			if (serviceObject is IInitializable initializable)
+			{
+				await initializable.Initialize();
 			}
 
 			_services.Add(typeof(T), serviceObject);
