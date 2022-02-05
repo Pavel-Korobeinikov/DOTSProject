@@ -1,5 +1,4 @@
-﻿using Application.Launcher.LaunchScenaries;
-using Configuration.Structure;
+﻿using Configuration.Structure;
 using Cysharp.Threading.Tasks;
 using ViewModel.SceneManagement;
 
@@ -20,7 +19,7 @@ namespace Application.Launcher.LaunchScenarios
 
 		public async UniTask Launch()
 		{
-			await _sceneManager.ActivateScene(_gameConfigurationEntity.Main);
+			await _sceneManager.ActivateScene(_gameConfigurationEntity.MainScene, ActivationSceneMode.Single);
 		}
 	}
 }

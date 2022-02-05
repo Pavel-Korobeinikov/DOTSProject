@@ -1,13 +1,14 @@
 ﻿using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
 using UnityEngine.SceneManagement;
+using ViewModel.SceneManagement.Scenes;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;
 
-namespace ViewModel.SceneManagement
+namespace ViewModel.SceneManagement.SceneLoading
 {
 	public class SceneLoader
 	{
-		public async UniTask<SceneBase> LoadScene(SceneEntity sceneEntity)
+		public async UniTask<SceneViewModel> LoadScene(SceneEntity sceneEntity)
 		{
 			await UnitySceneManager.LoadSceneAsync(sceneEntity.ScenePath, LoadSceneMode.Additive);
 			
@@ -19,11 +20,11 @@ namespace ViewModel.SceneManagement
 			await UnitySceneManager.UnloadSceneAsync(sceneEntity.ScenePath);
 		}
 
-		private SceneBase GetSceneBaseComponent(SceneEntity sceneEntity)
+		private SceneViewModel GetSceneBaseComponent(SceneEntity sceneEntity)
 		{
 			var scene = UnitySceneManager.GetSceneByPath(sceneEntity.ScenePath);
 			var rootGameObject = scene.GetRootGameObjects()[0];
-			var sceneBase = rootGameObject.GetComponent<SceneBase>();
+			var sceneBase = rootGameObject.GetComponent<SceneViewModel>();
 			sceneBase.Entity = sceneEntity;
 			
 			return sceneBase;

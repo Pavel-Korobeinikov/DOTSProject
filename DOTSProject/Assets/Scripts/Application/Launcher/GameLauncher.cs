@@ -1,5 +1,4 @@
 using System.Threading.Tasks;
-using Application.Launcher.LaunchScenaries;
 using Application.Launcher.LaunchScenarios;
 using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
@@ -49,7 +48,7 @@ namespace Application.Launcher
 			var configuration = _configurationLoader.GameConfiguration;
 			
 			_gameModel = new GameModel();
-			_sceneManager = new SceneManager(_gameModel, configuration);
+			_sceneManager = new SceneManager();
 			_launchScenario = new MainMenuLaunchScenario(_sceneManager, configuration);
 		}
 

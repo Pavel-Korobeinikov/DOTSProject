@@ -1,6 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 
-namespace Application.Launcher.LaunchScenaries
+namespace Application.Launcher.LaunchScenarios
 {
 	public interface ILaunchScenario
 	{

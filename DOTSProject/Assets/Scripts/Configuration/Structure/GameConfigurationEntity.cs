@@ -4,11 +4,11 @@ namespace Configuration.Structure
 {
 	public class GameConfigurationEntity
 	{
-		public SceneEntity Main { get; }
+		public SceneEntity MainScene { get; }
 
-		public GameConfigurationEntity(SceneEntity mainSceneEntity)
+		public GameConfigurationEntity(SceneEntity mainSceneSceneEntity)
 		{
-			Main = mainSceneEntity;
+			MainScene = mainSceneSceneEntity;
 		}
 	}
 }

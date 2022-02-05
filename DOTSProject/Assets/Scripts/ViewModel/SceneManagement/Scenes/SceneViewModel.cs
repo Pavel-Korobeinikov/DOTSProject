@@ -1,9 +1,9 @@
 ﻿using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
 
-namespace ViewModel.SceneManagement
+namespace ViewModel.SceneManagement.Scenes
 {
-	public abstract class SceneBase
+	public abstract class SceneViewModel
 	{
 		public SceneEntity Entity { get; set; }
 

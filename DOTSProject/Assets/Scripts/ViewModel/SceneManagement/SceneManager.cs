@@ -1,29 +1,25 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Configuration.Structure;
 using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
-using Model;
+using ViewModel.SceneManagement.Scenes;
+using ViewModel.SceneManagement.SceneLoading;
 
 namespace ViewModel.SceneManagement
 {
 	public class SceneManager
 	{
-		private readonly GameModel _model;
-		private readonly GameConfigurationEntity _configuration;
 		private readonly SceneLoader _sceneLoader;
-		private readonly List<SceneBase> _activeScenes = new List<SceneBase>();
+		private readonly List<SceneViewModel> _activeScenes = new List<SceneViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		private readonly List<UniTask<SceneBase>> _taskSceneCache = new List<UniTask<SceneBase>>();
+		private readonly List<UniTask<SceneViewModel>> _taskSceneCache = new List<UniTask<SceneViewModel>>();
 
-		public SceneManager(GameModel model, GameConfigurationEntity configuration)
+		public SceneManager()
 		{
-			_model = model;
-			_configuration = configuration;
 			_sceneLoader = new SceneLoader();
 		}
 
-		public async UniTask ActivateScene(SceneEntity sceneEntity, ActivationSceneMode activationMode = ActivationSceneMode.Single)
+		public async UniTask ActivateScene(SceneEntity sceneEntity, ActivationSceneMode activationMode)
 		{
 			if (activationMode == ActivationSceneMode.Single)
 			{
