@@ -2,19 +2,19 @@
 using System.Linq;
 using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
-using ViewModel.SceneManagement.Scenes;
-using ViewModel.SceneManagement.SceneLoading;
+using Services.SceneManagement.SceneLoading;
+using ViewModel;
 
-namespace ViewModel.SceneManagement
+namespace Services.SceneManagement
 {
-	public class SceneManager
+	public class SceneService : ISceneService
 	{
 		private readonly SceneLoader _sceneLoader;
-		private readonly List<ISceneViewModel> _activeScenes = new List<ISceneViewModel>();
+		private readonly List<IViewModel> _activeScenes = new List<IViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		private readonly List<UniTask<ISceneViewModel>> _taskSceneCache = new List<UniTask<ISceneViewModel>>();
+		private readonly List<UniTask<IViewModel>> _taskSceneCache = new List<UniTask<IViewModel>>();
 
-		public SceneManager()
+		public SceneService()
 		{
 			_sceneLoader = new SceneLoader();
 		}

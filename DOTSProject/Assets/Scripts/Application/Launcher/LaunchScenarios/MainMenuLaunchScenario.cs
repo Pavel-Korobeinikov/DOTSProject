@@ -1,25 +1,27 @@
 ﻿using Configuration;
 using Cysharp.Threading.Tasks;
-using ViewModel.SceneManagement;
+using Services;
+using Services.SceneManagement;
 
 namespace Application.Launcher.LaunchScenarios
 {
 	public class MainMenuLaunchScenario : ILaunchScenario
 	{
-		private readonly SceneManager _sceneManager;
+		private readonly IServiceManager _serviceManager;
 		private readonly ConfigurationLoader _configurationLoader;
 
 		public MainMenuLaunchScenario(
-			SceneManager sceneManager,
+			IServiceManager serviceManager,
 			ConfigurationLoader configurationLoader)
 		{
-			_sceneManager = sceneManager;
+			_serviceManager = serviceManager;
 			_configurationLoader = configurationLoader;
 		}
 
 		public async UniTask Launch()
 		{
-			await _sceneManager.ActivateScene(_configurationLoader.GameConfiguration.MainScene, ActivationSceneMode.Single);
+			var sceneService = _serviceManager.GetService<ISceneService>();
+			await sceneService.ActivateScene(_configurationLoader.GameConfiguration.MainScene, ActivationSceneMode.Single);
 		}
 	}
 }

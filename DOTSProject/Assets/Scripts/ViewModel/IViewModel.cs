@@ -1,7 +1,14 @@
-﻿namespace ViewModel
+﻿using Configuration.Structure.Scenes;
+using Cysharp.Threading.Tasks;
+
+namespace ViewModel
 {
-	public class IViewModel
+	public interface IViewModel
 	{
-		
+		public SceneEntity Entity { get; set; }
+		public void Initialize();
+		public UniTask Activate();
+		public UniTask Deactivate();
+		public void Utilize();
 	}
 }

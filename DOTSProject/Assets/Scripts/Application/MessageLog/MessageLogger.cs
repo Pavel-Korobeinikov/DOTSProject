@@ -12,6 +12,11 @@ namespace Application.MessageLog
 			set => _logHandler ??= value;
 		}
 
+		public static void Log(string message)
+		{
+			_logHandler?.Log(message);
+		}
+
 		public static void LogError(string message)
 		{
 			_logHandler?.LogError(message);

@@ -6,7 +6,8 @@ using Configuration;
 using Configuration.Providers.ScriptableObjectConfiguration;
 using Cysharp.Threading.Tasks;
 using Model;
-using ViewModel.SceneManagement;
+using Services;
+using Services.SceneManagement;
 
 namespace Application.Launcher
 {
@@ -15,7 +16,7 @@ namespace Application.Launcher
 		private readonly LaunchData _launchData;
 		private ConfigurationLoader _configurationLoader;
 		private GameModel _gameModel;
-		private SceneManager _sceneManager;
+		private ServiceManager _serviceManager;
 		private ILaunchScenario _launchScenario;
 		
 		private bool _isLaunched;
@@ -25,6 +26,7 @@ namespace Application.Launcher
 			_launchData = launchData;
 		}
 
+		// Application entry point 
 		public async UniTask Launch()
 		{
 			if (_isLaunched)
@@ -33,10 +35,16 @@ namespace Application.Launcher
 			}
 
 			CreateDependencies();
-			await Initialize();
+			RegisterServices();
+			await InitializeGameComponents();
 			await StartGame();
 
 			_isLaunched = true;
+		}
+
+		private void RegisterServices()
+		{
+			_serviceManager.RegisterService<ISceneService>(new SceneService());
 		}
 
 		private void CreateDependencies()
@@ -47,12 +55,12 @@ namespace Application.Launcher
 			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
 			_configurationLoader = new ConfigurationLoader(configurationProvider);
 			
+			_serviceManager = new ServiceManager();
 			_gameModel = new GameModel();
-			_sceneManager = new SceneManager();
-			_launchScenario = new MainMenuLaunchScenario(_sceneManager, _configurationLoader);
+			_launchScenario = new MainMenuLaunchScenario(_serviceManager, _configurationLoader);
 		}
 
-		private async UniTask Initialize()
+		private async UniTask InitializeGameComponents()
 		{
 			await _configurationLoader.Initialize();
 			//TODO: Load data from saves/server and give it to gameModel

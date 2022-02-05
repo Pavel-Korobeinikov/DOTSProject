@@ -1,33 +1,36 @@
-﻿using Configuration.Structure.Scenes;
+﻿using Application.MessageLog;
+using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 
-namespace ViewModel.SceneManagement.Scenes.MainScene
+namespace ViewModel
 {
-	public class MainSceneViewModel : MonoBehaviour, ISceneViewModel
+	public class MainSceneViewModel : MonoBehaviour, IViewModel
 	{
 		public SceneEntity Entity { get; set; }
 		
 		public void Initialize()
 		{
-			Debug.Log("Initialized");
+			MessageLogger.Log("Initialized");
 		}
 
 		public UniTask Activate()
 		{
-			Debug.Log("Activated");
+			MessageLogger.Log("Activated");
+			
 			return UniTask.CompletedTask;
 		}
 
 		public UniTask Deactivate()
 		{
-			Debug.Log("Deactivated");
+			MessageLogger.Log("Deactivated");
+			
 			return UniTask.CompletedTask;
 		}
 
 		public void Utilize()
 		{
-			Debug.Log("Utilized");
+			MessageLogger.Log("Utilized");
 		}
 	}
 }

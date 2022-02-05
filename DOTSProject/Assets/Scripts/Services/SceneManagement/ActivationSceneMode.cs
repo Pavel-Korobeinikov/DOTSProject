@@ -1,4 +1,4 @@
-﻿namespace ViewModel.SceneManagement
+﻿namespace Services.SceneManagement
 {
 	public enum ActivationSceneMode
 	{
