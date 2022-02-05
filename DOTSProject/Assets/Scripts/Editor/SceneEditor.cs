@@ -9,7 +9,7 @@ namespace Editor
 		public override void OnInspectorGUI()
 		{
 			var scene = target as SceneScriptableObjectEntity;
-			var oldScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.AssetPath);
+			var oldScene = AssetDatabase.LoadAssetAtPath<SceneAsset>(scene.ScenePath);
 
 			serializedObject.Update();
 
@@ -19,10 +19,12 @@ namespace Editor
 			if (EditorGUI.EndChangeCheck())
 			{
 				var newPath = AssetDatabase.GetAssetPath(newScene);
-				var scenePathProperty = serializedObject.FindProperty("AssetPath");
+				var scenePathProperty = serializedObject.FindProperty("ScenePath");
 				scenePathProperty.stringValue = newPath;
 			}
 			serializedObject.ApplyModifiedProperties();
+			
+			DrawDefaultInspector();
 		}
 	}
 }

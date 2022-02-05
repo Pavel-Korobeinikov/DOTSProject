@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Application.Launcher;
+using UnityEngine;
 
 namespace Application.Components
 {

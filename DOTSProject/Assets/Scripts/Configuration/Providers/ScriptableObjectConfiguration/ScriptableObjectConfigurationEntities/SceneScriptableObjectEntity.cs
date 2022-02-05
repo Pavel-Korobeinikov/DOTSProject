@@ -1,4 +1,6 @@
-﻿using Configuration.Structure.Scenes;
+﻿using System.Collections.Generic;
+using System.Linq;
+using Configuration.Structure.Scenes;
 using UnityEngine;
 
 namespace Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities
@@ -6,11 +8,14 @@ namespace Configuration.Providers.ScriptableObjectConfiguration.ScriptableObject
 	[CreateAssetMenu(fileName = "Scene Configuration", menuName = "Configuration/Scene", order = 2)]
 	public class SceneScriptableObjectEntity : ScriptableObject
 	{
-		public string AssetPath = default;
+		[HideInInspector] public string ScenePath = default;
+		public List<SceneScriptableObjectEntity> SceneDependencies = default;
 
-		public Scene GetStructureData()
+		public SceneEntity GetStructureData()
 		{
-			return new Scene(AssetPath);
+			return new SceneEntity(
+				ScenePath,
+				SceneDependencies.Select(dependency => dependency.GetStructureData()).ToList());
 		}
 	}
 }

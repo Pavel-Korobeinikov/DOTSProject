@@ -1,19 +1,22 @@
 using System.Threading.Tasks;
+using Application.Launcher.LaunchScenaries;
+using Application.Launcher.LaunchScenarios;
 using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
 using Configuration;
 using Configuration.Providers.ScriptableObjectConfiguration;
 using Model;
-using ViewModel;
+using ViewModel.SceneManagement;
 
-namespace Application
+namespace Application.Launcher
 {
 	public class GameLauncher
 	{
-		private LaunchData _launchData;
+		private readonly LaunchData _launchData;
 		private ConfigurationLoader _configurationLoader;
 		private GameModel _gameModel;
-		private GameViewModel _gameViewModel;
+		private SceneManager _sceneManager;
+		private ILaunchScenario _launchScenario;
 		
 		private bool _isLaunched;
 
@@ -31,6 +34,7 @@ namespace Application
 
 			CreateDependencies();
 			await Initialize();
+			StartGame();
 
 			_isLaunched = true;
 		}
@@ -42,9 +46,11 @@ namespace Application
 
 			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
 			_configurationLoader = new ConfigurationLoader(configurationProvider);
+			var configuration = _configurationLoader.GameConfiguration;
 			
 			_gameModel = new GameModel();
-			_gameViewModel = new GameViewModel(_gameModel);
+			_sceneManager = new SceneManager(_gameModel, configuration);
+			_launchScenario = new MainMenuLaunchScenario(_sceneManager, configuration);
 		}
 
 		private async Task Initialize()
@@ -52,7 +58,11 @@ namespace Application
 			await _configurationLoader.Initialize();
 			//TODO: Load data from saves/server and give it to gameModel
 			await _gameModel.Initialize();
-			_gameViewModel.Initialize();
+		}
+
+		private void StartGame()
+		{
+			_launchScenario.Launch();
 		}
 	}
 }

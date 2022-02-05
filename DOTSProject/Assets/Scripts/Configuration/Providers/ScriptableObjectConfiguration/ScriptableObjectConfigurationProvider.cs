@@ -6,6 +6,8 @@ using UnityEngine;
 
 namespace Configuration.Providers.ScriptableObjectConfiguration
 {
+	// Configuration better to separate from engine and make it with XML or something like that to make life of Game Designers simply.
+	// But for test in small game it's enough.
 	public class ScriptableObjectConfigurationProvider : IConfigurationProvider
 	{
 		private readonly string _configurationPath;
@@ -17,7 +19,7 @@ namespace Configuration.Providers.ScriptableObjectConfiguration
 			_configurationPath = configurationPath;
 		}
 
-		public async UniTask<GameConfiguration> LoadConfiguration()
+		public async UniTask<GameConfigurationEntity> LoadConfiguration()
 		{
 			_configurationEntity = await Resources.LoadAsync<GameConfigurationScriptableObjectEntity>(_configurationPath) as GameConfigurationScriptableObjectEntity;
 
@@ -29,7 +31,7 @@ namespace Configuration.Providers.ScriptableObjectConfiguration
 			return await CreateGameConfiguration();
 		}
 
-		private async UniTask<GameConfiguration> CreateGameConfiguration()
+		private async UniTask<GameConfigurationEntity> CreateGameConfiguration()
 		{
 			return await UniTask.FromResult(_configurationEntity.GetStructureData());
 		}

@@ -8,9 +8,9 @@ namespace Configuration.Providers.ScriptableObjectConfiguration.ScriptableObject
 	{
 		[SerializeField] private SceneScriptableObjectEntity _mainScene = default;
 
-		public GameConfiguration GetStructureData()
+		public GameConfigurationEntity GetStructureData()
 		{
-			return new GameConfiguration(_mainScene.GetStructureData());
+			return new GameConfigurationEntity(_mainScene.GetStructureData());
 		}
 	}
 }

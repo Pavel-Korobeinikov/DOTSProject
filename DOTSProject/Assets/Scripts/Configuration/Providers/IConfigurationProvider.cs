@@ -5,6 +5,6 @@ namespace Configuration.Providers
 {
 	public interface IConfigurationProvider
 	{
-		public UniTask<GameConfiguration> LoadConfiguration();
+		public UniTask<GameConfigurationEntity> LoadConfiguration();
 	}
 }
