@@ -1,7 +1,7 @@
 ﻿using Configuration.Structure;
 using Cysharp.Threading.Tasks;
 
-namespace Configuration.Providers
+namespace Services.Configuration.Providers
 {
 	public interface IConfigurationProvider
 	{

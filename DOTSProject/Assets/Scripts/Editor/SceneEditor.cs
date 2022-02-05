@@ -1,4 +1,4 @@
-﻿using Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities;
+﻿using Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities;
 using UnityEditor;
 
 namespace Editor

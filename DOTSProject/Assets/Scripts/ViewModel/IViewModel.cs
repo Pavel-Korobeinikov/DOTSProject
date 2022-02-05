@@ -5,7 +5,6 @@ namespace ViewModel
 {
 	public interface IViewModel
 	{
-		public SceneEntity Entity { get; set; }
 		public void Initialize();
 		public UniTask Activate();
 		public UniTask Deactivate();

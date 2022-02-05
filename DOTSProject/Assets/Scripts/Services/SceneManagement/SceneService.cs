@@ -10,9 +10,9 @@ namespace Services.SceneManagement
 	public class SceneService : ISceneService
 	{
 		private readonly SceneLoader _sceneLoader;
-		private readonly List<IViewModel> _activeScenes = new List<IViewModel>();
+		private readonly Dictionary<string, IViewModel> _activeScenes = new Dictionary<string, IViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		private readonly List<UniTask<IViewModel>> _taskSceneCache = new List<UniTask<IViewModel>>();
+		private readonly List<UniTask<(string, IViewModel)>> _taskSceneCache = new List<UniTask<(string, IViewModel)>>();
 
 		public SceneService()
 		{
@@ -32,19 +32,19 @@ namespace Services.SceneManagement
 		private async UniTask UtilizeCurrentScenes()
 		{
 			_taskCache.Clear();
-			foreach (var activeScene in _activeScenes)
+			foreach (var activeScenePair in _activeScenes)
 			{
-				var deactivateTask = activeScene.Deactivate();
+				var deactivateTask = activeScenePair.Value.Deactivate();
 				_taskCache.Add(deactivateTask);
 			}
 
 			await UniTask.WhenAll(_taskCache);
 			
 			_taskCache.Clear();
-			foreach (var activeScene in _activeScenes)
+			foreach (var activeScenePair in _activeScenes)
 			{
-				activeScene.Utilize();
-				var unloadScene = _sceneLoader.UnloadScene(activeScene.Entity);
+				activeScenePair.Value.Utilize();
+				var unloadScene = _sceneLoader.UnloadScene(activeScenePair.Key);
 				_taskCache.Add(unloadScene);
 			}
 
@@ -59,7 +59,7 @@ namespace Services.SceneManagement
 			_taskSceneCache.Add(_sceneLoader.LoadScene(sceneEntity));
 			foreach (var dependencyScene in sceneEntity.SceneDependencies)
 			{
-				if (_activeScenes.Select(scene => scene.Entity.ScenePath)
+				if (_activeScenes.Select(scenePair => scenePair.Key)
 					.Contains(dependencyScene.ScenePath))
 				{
 					continue;
@@ -71,16 +71,16 @@ namespace Services.SceneManagement
 
 			var loadedScenes = await UniTask.WhenAll(_taskSceneCache);
 			
-			foreach (var scene in loadedScenes)
+			foreach (var (scenePath, viewModel) in loadedScenes)
 			{
-				_activeScenes.Add(scene);
+				_activeScenes.Add(scenePath, viewModel);
 			}
 			
 			_taskCache.Clear();
-			foreach (var activeScene in _activeScenes)
+			foreach (var activeScenePair in _activeScenes)
 			{
-				activeScene.Initialize();
-				var activateTask = activeScene.Activate();
+				activeScenePair.Value.Initialize();
+				var activateTask = activeScenePair.Value.Activate();
 				_taskCache.Add(activateTask);
 			}
 			

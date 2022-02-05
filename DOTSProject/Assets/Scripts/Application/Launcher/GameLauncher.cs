@@ -1,11 +1,11 @@
 using Application.Launcher.LaunchScenarios;
 using Application.MessageLog;
 using Application.MessageLog.LogHandlers;
-using Configuration.Providers.ScriptableObjectConfiguration;
 using Cysharp.Threading.Tasks;
 using Model;
 using Services;
 using Services.Configuration;
+using Services.Configuration.Providers.ScriptableObjectConfiguration;
 using Services.SceneManagement;
 
 namespace Application.Launcher
@@ -54,12 +54,9 @@ namespace Application.Launcher
 			var currentLogger = new UnityMessageLogHandler();
 			MessageLogger.LogHandler = currentLogger;
 
-			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
-			_configurationService = new ConfigurationService(configurationProvider);
-			
 			_serviceManager = new ServiceManager();
 			_gameModel = new GameModel();
-			_launchScenario = new MainMenuLaunchScenario(_serviceManager, _configurationService);
+			_launchScenario = new MainMenuLaunchScenario(_serviceManager);
 		}
 
 		private async UniTask Initialize()

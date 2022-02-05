@@ -8,16 +8,16 @@ namespace Services.SceneManagement.SceneLoading
 {
 	public class SceneLoader
 	{
-		public async UniTask<IViewModel> LoadScene(SceneEntity sceneEntity)
+		public async UniTask<(string, IViewModel)> LoadScene(SceneEntity sceneEntity)
 		{
 			await UnitySceneManager.LoadSceneAsync(sceneEntity.ScenePath, LoadSceneMode.Additive);
 			
-			return GetSceneBaseViewModel(sceneEntity);
+			return (sceneEntity.ScenePath, GetSceneBaseViewModel(sceneEntity));
 		}
 
-		public async UniTask UnloadScene(SceneEntity sceneEntity)
+		public async UniTask UnloadScene(string scenePath)
 		{
-			await UnitySceneManager.UnloadSceneAsync(sceneEntity.ScenePath);
+			await UnitySceneManager.UnloadSceneAsync(scenePath);
 		}
 
 		private IViewModel GetSceneBaseViewModel(SceneEntity sceneEntity)
@@ -25,7 +25,6 @@ namespace Services.SceneManagement.SceneLoading
 			var scene = UnitySceneManager.GetSceneByPath(sceneEntity.ScenePath);
 			var rootGameObject = scene.GetRootGameObjects()[0];
 			var sceneViewModel = rootGameObject.GetComponent<IViewModel>();
-			sceneViewModel.Entity = sceneEntity;
 			
 			return sceneViewModel;
 		}
