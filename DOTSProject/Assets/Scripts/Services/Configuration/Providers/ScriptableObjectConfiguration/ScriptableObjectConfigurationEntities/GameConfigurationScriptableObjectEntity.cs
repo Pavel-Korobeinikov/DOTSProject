@@ -1,4 +1,4 @@
-﻿using Configuration.Structure;
+﻿using Services.Configuration.Structure;
 using UnityEngine;
 
 namespace Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities

@@ -13,7 +13,6 @@ namespace Application.Launcher
 	public class GameLauncher
 	{
 		private readonly LaunchData _launchData;
-		private ConfigurationService _configurationService;
 		private GameModel _gameModel;
 		private ServiceManager _serviceManager;
 		private ILaunchScenario _launchScenario;
@@ -31,6 +30,8 @@ namespace Application.Launcher
 			if (_isLaunched)
 			{
 				MessageLogger.LogError("Game already launched.");
+				
+				return;
 			}
 
 			CreateDependencies();

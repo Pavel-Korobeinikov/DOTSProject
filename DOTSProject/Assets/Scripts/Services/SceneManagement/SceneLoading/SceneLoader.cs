@@ -1,5 +1,5 @@
-﻿using Configuration.Structure.Scenes;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
+using Services.Configuration.Structure.Scenes;
 using UnityEngine.SceneManagement;
 using ViewModel;
 using UnitySceneManager = UnityEngine.SceneManagement.SceneManager;

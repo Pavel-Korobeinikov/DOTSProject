@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Configuration.Structure.Scenes;
+using Services.Configuration.Structure.Scenes;
 using UnityEngine;
 
 namespace Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities

@@ -1,6 +1,6 @@
-﻿using Configuration.Structure;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using Services.Configuration.Providers;
+using Services.Configuration.Structure;
 
 namespace Services.Configuration
 {

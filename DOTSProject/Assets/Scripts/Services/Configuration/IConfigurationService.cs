@@ -1,4 +1,4 @@
-﻿using Configuration.Structure;
+﻿using Services.Configuration.Structure;
 
 namespace Services.Configuration
 {

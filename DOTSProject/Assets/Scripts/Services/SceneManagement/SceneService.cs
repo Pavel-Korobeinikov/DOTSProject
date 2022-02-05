@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Configuration.Structure.Scenes;
 using Cysharp.Threading.Tasks;
+using Services.Configuration.Structure.Scenes;
 using Services.SceneManagement.SceneLoading;
 using ViewModel;
 

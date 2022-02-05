@@ -1,5 +1,4 @@
-﻿using Configuration.Structure.Scenes;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 
 namespace ViewModel
 {

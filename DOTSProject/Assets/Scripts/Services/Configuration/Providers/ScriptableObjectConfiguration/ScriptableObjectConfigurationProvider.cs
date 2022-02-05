@@ -1,7 +1,7 @@
 ﻿using System;
-using Configuration.Structure;
 using Cysharp.Threading.Tasks;
 using Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities;
+using Services.Configuration.Structure;
 using UnityEngine;
 
 namespace Services.Configuration.Providers.ScriptableObjectConfiguration

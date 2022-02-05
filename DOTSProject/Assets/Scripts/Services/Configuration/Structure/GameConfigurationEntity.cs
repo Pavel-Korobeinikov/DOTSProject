@@ -1,6 +1,6 @@
-﻿using Configuration.Structure.Scenes;
+﻿using Services.Configuration.Structure.Scenes;
 
-namespace Configuration.Structure
+namespace Services.Configuration.Structure
 {
 	public class GameConfigurationEntity
 	{
