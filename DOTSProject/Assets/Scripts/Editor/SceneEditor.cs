@@ -1,5 +1,8 @@
 ﻿using Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities;
 using UnityEditor;
+using UnityEngine;
+using UnityEngine.SceneManagement;
+using ViewModel;
 
 namespace Editor
 {
@@ -19,8 +22,17 @@ namespace Editor
 			if (EditorGUI.EndChangeCheck())
 			{
 				var newPath = AssetDatabase.GetAssetPath(newScene);
-				var scenePathProperty = serializedObject.FindProperty("ScenePath");
-				scenePathProperty.stringValue = newPath;
+				var sceneObject = SceneManager.GetSceneByPath(newPath);
+
+				if (newScene == null || sceneObject.GetRootGameObjects()[0]?.GetComponent<IViewModel>() != null)
+				{
+					var scenePathProperty = serializedObject.FindProperty("ScenePath");
+					scenePathProperty.stringValue = newPath;
+				}
+				else if (newScene != null)
+				{
+					Debug.LogError($"Root gameObject in scene {newPath} doesn't contain IViewModel");
+				}
 			}
 			serializedObject.ApplyModifiedProperties();
 			
