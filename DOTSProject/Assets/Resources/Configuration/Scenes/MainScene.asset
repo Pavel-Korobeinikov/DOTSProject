@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 73b46e828f194af59190eec34a883d98, type: 3}
   m_Name: MainScene
   m_EditorClassIdentifier: 
-  ScenePath: Assets/Scenes/Main.unity
+  ScenePath: Assets/Scenes/UI/UI_MainMenu.unity
   SceneDependencies: []

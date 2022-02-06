@@ -12,7 +12,8 @@ namespace Services.SceneManagement
 		private readonly SceneLoader _sceneLoader;
 		private readonly Dictionary<string, IViewModel> _activeScenes = new Dictionary<string, IViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		private readonly List<UniTask<(string, IViewModel)>> _taskSceneCache = new List<UniTask<(string, IViewModel)>>();
+		private readonly List<UniTask> _taskLoadCache = new List<UniTask>();
+		private readonly List<UniTask<(string, IViewModel)>> _taskLoadSceneCache = new List<UniTask<(string, IViewModel)>>();
 
 		public SceneService()
 		{
@@ -26,37 +27,38 @@ namespace Services.SceneManagement
 				await UtilizeCurrentScenes();
 			}
 			
+			_taskLoadSceneCache.Clear();
+			_taskLoadCache.Clear();
 			await LoadSceneWithDependencies(sceneEntity);
 		}
 
 		private async UniTask UtilizeCurrentScenes()
 		{
-			_taskCache.Clear();
+			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
 				var deactivateTask = activeScenePair.Value.Deactivate();
-				_taskCache.Add(deactivateTask);
+				_taskLoadCache.Add(deactivateTask);
 			}
 
-			await UniTask.WhenAll(_taskCache);
+			await UniTask.WhenAll(_taskLoadCache);
 			
-			_taskCache.Clear();
+			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
 				activeScenePair.Value.Utilize();
 				var unloadScene = _sceneLoader.UnloadScene(activeScenePair.Key);
-				_taskCache.Add(unloadScene);
+				_taskLoadCache.Add(unloadScene);
 			}
 
-			await UniTask.WhenAll(_taskCache);
+			await UniTask.WhenAll(_taskLoadCache);
 			
 			_activeScenes.Clear();
 		}
 
 		private async UniTask LoadSceneWithDependencies(SceneEntity sceneEntity)
 		{
-			_taskSceneCache.Clear();
-			_taskSceneCache.Add(_sceneLoader.LoadScene(sceneEntity));
+			_taskLoadSceneCache.Add(_sceneLoader.LoadScene(sceneEntity));
 			foreach (var dependencyScene in sceneEntity.SceneDependencies)
 			{
 				if (_activeScenes.Select(scenePair => scenePair.Key)
@@ -65,11 +67,11 @@ namespace Services.SceneManagement
 					continue;
 				}
 
-				var sceneBasesUniTask = _sceneLoader.LoadScene(dependencyScene);
-				_taskSceneCache.Add(sceneBasesUniTask);
+				_taskLoadCache.Add(LoadSceneWithDependencies(sceneEntity));
 			}
 
-			var loadedScenes = await UniTask.WhenAll(_taskSceneCache);
+			await UniTask.WhenAll(_taskLoadCache);
+			var loadedScenes = await UniTask.WhenAll(_taskLoadSceneCache);
 			
 			foreach (var (scenePath, viewModel) in loadedScenes)
 			{
