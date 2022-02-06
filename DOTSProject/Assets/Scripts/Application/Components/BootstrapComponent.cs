@@ -1,4 +1,5 @@
 ﻿using Application.Launcher;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 namespace Application.Components
@@ -16,7 +17,7 @@ namespace Application.Components
 			_gameLauncher = new GameLauncher(launchData);
 		}
 
-		private async void Start()
+		private async UniTaskVoid Start()
 		{
 			await _gameLauncher.Launch();
 		}

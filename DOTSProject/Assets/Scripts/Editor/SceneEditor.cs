@@ -2,7 +2,7 @@
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-using ViewModel;
+using View;
 
 namespace Editor
 {
@@ -24,7 +24,7 @@ namespace Editor
 				var newPath = AssetDatabase.GetAssetPath(newScene);
 				var sceneObject = SceneManager.GetSceneByPath(newPath);
 
-				if (newScene == null || sceneObject.GetRootGameObjects()[0]?.GetComponent<BaseViewModel>() != null)
+				if (newScene == null || sceneObject.GetRootGameObjects()[0]?.GetComponent<ISceneView>() != null)
 				{
 					var scenePathProperty = serializedObject.FindProperty("ScenePath");
 					scenePathProperty.stringValue = newPath;

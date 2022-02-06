@@ -5,10 +5,14 @@ namespace Services.Configuration.Structure
 	public class GameConfigurationEntity
 	{
 		public SceneEntity MainScene { get; }
+		public SceneEntity BattleScene { get; }
 
-		public GameConfigurationEntity(SceneEntity mainSceneSceneEntity)
+		public GameConfigurationEntity(
+			SceneEntity mainSceneEntity,
+			SceneEntity battleSceneEntity)
 		{
-			MainScene = mainSceneSceneEntity;
+			MainScene = mainSceneEntity;
+			BattleScene = battleSceneEntity;
 		}
 	}
 }

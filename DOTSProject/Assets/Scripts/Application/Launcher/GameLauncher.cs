@@ -7,6 +7,7 @@ using Services;
 using Services.Configuration;
 using Services.Configuration.Providers.ScriptableObjectConfiguration;
 using Services.SceneManagement;
+using ViewModel;
 
 namespace Application.Launcher
 {
@@ -14,6 +15,7 @@ namespace Application.Launcher
 	{
 		private readonly LaunchData _launchData;
 		private GameModel _gameModel;
+		private IGameViewModel _viewModel;
 		private ServiceManager _serviceManager;
 		private ILaunchScenario _launchScenario;
 		
@@ -44,7 +46,7 @@ namespace Application.Launcher
 
 		private async UniTask RegisterServices()
 		{
-			await _serviceManager.RegisterService<ISceneService>(new SceneService());
+			await _serviceManager.RegisterService<ISceneService>(new SceneService(_viewModel));
 
 			var configurationProvider = new ScriptableObjectConfigurationProvider(_launchData.ConfigurationPath);
 			await _serviceManager.RegisterService<IConfigurationService>(new ConfigurationService(configurationProvider));
@@ -57,6 +59,7 @@ namespace Application.Launcher
 
 			_serviceManager = new ServiceManager();
 			_gameModel = new GameModel();
+			_viewModel = new GameViewModel(_gameModel, _serviceManager);
 			_launchScenario = new MainMenuLaunchScenario(_serviceManager);
 		}
 

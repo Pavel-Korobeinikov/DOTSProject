@@ -9,8 +9,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9edc104eb305496c94bdbdb69d88e236, type: 3}
-  m_Name: GameConfiguration
+  m_Script: {fileID: 11500000, guid: 73b46e828f194af59190eec34a883d98, type: 3}
+  m_Name: BattleScene
   m_EditorClassIdentifier: 
-  _mainScene: {fileID: 11400000, guid: 1e5ce262a96db82469a526395b27836c, type: 2}
-  _battleScene: {fileID: 11400000, guid: acd374bb8759b1a4f9d9c435302bbdec, type: 2}
+  ScenePath: Assets/Scenes/Battle.unity
+  SceneDependencies: []
