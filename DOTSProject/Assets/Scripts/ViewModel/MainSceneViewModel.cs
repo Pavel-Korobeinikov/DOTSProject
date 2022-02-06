@@ -1,7 +1,5 @@
 ﻿using Application.MessageLog;
 using Cysharp.Threading.Tasks;
-using Services.Configuration.Structure.Scenes;
-using Services.SceneManagement;
 using UnityEngine;
 
 namespace ViewModel
