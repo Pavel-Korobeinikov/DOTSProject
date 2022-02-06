@@ -10,10 +10,10 @@ namespace Services.SceneManagement
 	public class SceneService : ISceneService
 	{
 		private readonly SceneLoader _sceneLoader;
-		private readonly Dictionary<string, IViewModel> _activeScenes = new Dictionary<string, IViewModel>();
+		private readonly Dictionary<string, BaseViewModel> _activeScenes = new Dictionary<string, BaseViewModel>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
 		private readonly List<UniTask> _taskLoadCache = new List<UniTask>();
-		private readonly List<UniTask<(string, IViewModel)>> _taskLoadSceneCache = new List<UniTask<(string, IViewModel)>>();
+		private readonly List<UniTask<(string, BaseViewModel)>> _taskLoadSceneCache = new List<UniTask<(string, BaseViewModel)>>();
 
 		public SceneService()
 		{
@@ -37,7 +37,8 @@ namespace Services.SceneManagement
 			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
-				var deactivateTask = activeScenePair.Value.Deactivate();
+				activeScenePair.Value.UnsubscribeWithChildViewModels();
+				var deactivateTask = activeScenePair.Value.DeactivateWithChildViewModels();
 				_taskLoadCache.Add(deactivateTask);
 			}
 
@@ -46,7 +47,7 @@ namespace Services.SceneManagement
 			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
-				activeScenePair.Value.Utilize();
+				activeScenePair.Value.UtilizeWithChildViewModels();
 				var unloadScene = _sceneLoader.UnloadScene(activeScenePair.Key);
 				_taskLoadCache.Add(unloadScene);
 			}
@@ -81,8 +82,10 @@ namespace Services.SceneManagement
 			_taskCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
-				activeScenePair.Value.Initialize();
-				var activateTask = activeScenePair.Value.Activate();
+				activeScenePair.Value.SetDependencies();
+				activeScenePair.Value.InitializeWithChildViewModels();
+				activeScenePair.Value.SubscribeWithChildViewModels();
+				var activateTask = activeScenePair.Value.ActivateWithChildViewModels();
 				_taskCache.Add(activateTask);
 			}
 			

@@ -24,7 +24,7 @@ namespace Editor
 				var newPath = AssetDatabase.GetAssetPath(newScene);
 				var sceneObject = SceneManager.GetSceneByPath(newPath);
 
-				if (newScene == null || sceneObject.GetRootGameObjects()[0]?.GetComponent<IViewModel>() != null)
+				if (newScene == null || sceneObject.GetRootGameObjects()[0]?.GetComponent<BaseViewModel>() != null)
 				{
 					var scenePathProperty = serializedObject.FindProperty("ScenePath");
 					scenePathProperty.stringValue = newPath;

@@ -4,28 +4,31 @@ using UnityEngine;
 
 namespace ViewModel
 {
-	public class MainSceneViewModel : MonoBehaviour, IViewModel
+	public class MainSceneViewModel : BaseViewModel
 	{
-		public void Initialize()
+		[SerializeField] private BaseViewModel _startEndlessModeButtonViewModel = default;
+
+		protected override void SetChildViewModels()
+		{
+			AddChildViewModel(_startEndlessModeButtonViewModel);
+		}
+
+		protected override void Initialize()
 		{
 			MessageLogger.Log("Initialized");
 		}
 
-		public UniTask Activate()
+		protected override async UniTask Activate()
 		{
 			MessageLogger.Log("Activated");
-			
-			return UniTask.CompletedTask;
 		}
 
-		public UniTask Deactivate()
+		protected override async UniTask Deactivate()
 		{
 			MessageLogger.Log("Deactivated");
-			
-			return UniTask.CompletedTask;
 		}
 
-		public void Utilize()
+		protected override void Utilize()
 		{
 			MessageLogger.Log("Utilized");
 		}
