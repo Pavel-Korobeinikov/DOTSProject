@@ -1,5 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
-using Services.Configuration.Structure.Scenes;
+using Services.Configuration.Structure;
 
 namespace Services.SceneManagement
 {

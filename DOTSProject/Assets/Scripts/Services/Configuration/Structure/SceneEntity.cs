@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace Services.Configuration.Structure.Scenes
+namespace Services.Configuration.Structure
 {
 	public class SceneEntity
 	{

@@ -1,4 +1,4 @@
-﻿using Services.Configuration.Structure.Scenes;
+﻿using Services.Configuration.Structure.Battle;
 
 namespace Services.Configuration.Structure
 {
@@ -6,13 +6,16 @@ namespace Services.Configuration.Structure
 	{
 		public SceneEntity MainScene { get; }
 		public SceneEntity BattleScene { get; }
+		public BattleEntity BattleConfiguration { get; }
 
 		public GameConfigurationEntity(
 			SceneEntity mainSceneEntity,
-			SceneEntity battleSceneEntity)
+			SceneEntity battleSceneEntity,
+			BattleEntity battleConfiguration)
 		{
 			MainScene = mainSceneEntity;
 			BattleScene = battleSceneEntity;
+			BattleConfiguration = battleConfiguration;
 		}
 	}
 }

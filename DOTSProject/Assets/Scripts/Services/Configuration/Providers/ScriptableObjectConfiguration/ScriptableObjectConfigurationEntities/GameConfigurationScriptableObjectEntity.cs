@@ -1,4 +1,5 @@
-﻿using Services.Configuration.Structure;
+﻿using Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities.Battle;
+using Services.Configuration.Structure;
 using UnityEngine;
 
 namespace Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities
@@ -8,12 +9,14 @@ namespace Services.Configuration.Providers.ScriptableObjectConfiguration.Scripta
 	{
 		[SerializeField] private SceneScriptableObjectEntity _mainScene = default;
 		[SerializeField] private SceneScriptableObjectEntity _battleScene = default;
+		[SerializeField] private BattleScriptableObjectEntity _battleConfiguration = default;
 
 		public GameConfigurationEntity GetStructureData()
 		{
 			return new GameConfigurationEntity(
 				_mainScene.GetStructureData(),
-				_battleScene.GetStructureData());
+				_battleScene.GetStructureData(),
+				_battleConfiguration.GetStructureData());
 		}
 	}
 }

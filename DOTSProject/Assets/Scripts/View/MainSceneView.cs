@@ -2,6 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using ViewModel;
+using ViewModel.Scenes;
 
 namespace View
 {

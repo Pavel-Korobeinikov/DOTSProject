@@ -1,6 +1,7 @@
 ﻿using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using ViewModel;
+using ViewModel.Scenes;
 
 namespace View
 {
