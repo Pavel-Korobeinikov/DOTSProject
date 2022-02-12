@@ -21,12 +21,16 @@ namespace View.Scenes
 		{
 			MessageLogger.Log("Battle Scene Activated");
 			
+			//TODO: Implement animation transition between scenes
+			
 			return base.Activate();
 		}
 		
 		protected override UniTask Deactivate()
 		{
 			MessageLogger.Log("Battle Scene Deactivated");
+			
+			//TODO: Implement animation transition between scenes
 			
 			return base.Deactivate();
 		}

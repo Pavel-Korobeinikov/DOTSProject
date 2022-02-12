@@ -1,4 +1,5 @@
-﻿using Cysharp.Threading.Tasks;
+﻿using System;
+using Cysharp.Threading.Tasks;
 using Services.Configuration.Structure;
 using UnityEngine.SceneManagement;
 using View;
@@ -25,6 +26,10 @@ namespace Services.SceneManagement.SceneLoading
 			var scene = UnitySceneManager.GetSceneByPath(sceneEntity.ScenePath);
 			var rootGameObject = scene.GetRootGameObjects()[0];
 			var baseView = rootGameObject.GetComponent<BaseView>();
+			if (baseView == null)
+			{
+				throw new Exception($"Base view in root object of {sceneEntity} doesn't found");
+			}
 
 			return baseView;
 		}

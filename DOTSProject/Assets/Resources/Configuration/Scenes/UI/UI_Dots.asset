@@ -10,8 +10,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 73b46e828f194af59190eec34a883d98, type: 3}
-  m_Name: DotsScene
+  m_Name: UI_Dots
   m_EditorClassIdentifier: 
-  _scenePath: Assets/Scenes/Dots.unity
-  _sceneDependencies:
-  - {fileID: 11400000, guid: 424e051dde1069a4cbeab6832e333671, type: 2}
+  _scenePath: Assets/Scenes/UI/UI_Dots.unity
+  _sceneDependencies: []

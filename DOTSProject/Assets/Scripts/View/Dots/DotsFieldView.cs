@@ -35,11 +35,21 @@ namespace View.Dots
 			{
 				for (var y = 0; y < ViewModel.Height; y++)
 				{
+					//TODO: Use GameObject Pool
 					var instantiatedView = Instantiate(_dotPrefab, _dotsPlaceholder);
 					var dotViewModel = ViewModel.Grid[x, y];
 					instantiatedView.SetViewModel(dotViewModel);
 					_dotViews.Add(instantiatedView);
 				}
+			}
+		}
+
+		protected override void Utilize()
+		{
+			foreach (var dotView in _dotViews)
+			{
+				//TODO: Use GameObject Pool
+				Destroy(dotView);
 			}
 		}
 	}

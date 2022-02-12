@@ -22,6 +22,8 @@ namespace ViewModel
 		{
 			if (_activeSingleViewModels.TryGetValue(typeof(TViewModel), out var viewModel))
 			{
+				viewModel.Initialize(_gameModel, _serviceManager);
+				
 				return (TViewModel) viewModel;
 			}
 			

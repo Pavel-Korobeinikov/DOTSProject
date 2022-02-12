@@ -1,12 +1,11 @@
-﻿using Application.MessageLog;
-using Cysharp.Threading.Tasks;
+﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using View.Components;
 using ViewModel.Scenes;
 
 namespace View.Scenes
 {
-	public class MainSceneView : SceneView<MainSceneViewModel>
+	public class DotsUISceneView : SceneView<DotsSceneViewModel>
 	{
 		[SerializeField] private ButtonView startEndlessModeButtonView = default;
 
@@ -20,24 +19,6 @@ namespace View.Scenes
 			startEndlessModeButtonView.ButtonClicked += OnStartEndlessModeButtonClicked;
 		}
 
-		protected override UniTask Activate()
-		{
-			MessageLogger.Log("Main Scene Activated");
-			
-			//TODO: Implement animation transition between scenes
-			
-			return base.Activate();
-		}
-
-		protected override UniTask Deactivate()
-		{
-			MessageLogger.Log("Main Scene Deactivated");
-			
-			//TODO: Implement animation transition between scenes
-
-			return base.Deactivate();
-		}
-
 		protected override void Unsubscribe()
 		{
 			startEndlessModeButtonView.ButtonClicked -= OnStartEndlessModeButtonClicked;
@@ -45,7 +26,7 @@ namespace View.Scenes
 
 		private void OnStartEndlessModeButtonClicked()
 		{
-			UniTask.Action(async () => await ViewModel.ActivateBattleScene()).Invoke();
+			UniTask.Action(async () => await ViewModel.ReturnToMainMenu()).Invoke();
 		}
 	}
 }

@@ -15,9 +15,7 @@ namespace Services.SceneManagement
 		private readonly SceneLoader _sceneLoader;
 		private readonly Dictionary<string, BaseView> _activeScenes = new Dictionary<string, BaseView>();
 		
-		private readonly List<UniTask> _taskCache = new List<UniTask>();
 		private readonly List<UniTask> _taskLoadCache = new List<UniTask>();
-		private readonly List<UniTask<(string, BaseView)>> _taskLoadSceneCache = new List<UniTask<(string, BaseView)>>();
 
 		public SceneService(IGameViewModel gameViewModel)
 		{
@@ -32,14 +30,11 @@ namespace Services.SceneManagement
 				await UtilizeCurrentScenes();
 			}
 			
-			_taskLoadSceneCache.Clear();
-			_taskLoadCache.Clear();
 			await LoadSceneWithDependencies(sceneEntity);
 		}
 
 		private async UniTask UtilizeCurrentScenes()
 		{
-			
 			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
@@ -65,6 +60,7 @@ namespace Services.SceneManagement
 
 		private async UniTask LoadSceneWithDependencies(SceneEntity sceneEntity)
 		{
+			var loadingSceneTasks = new List<UniTask>();
 			foreach (var dependencyScene in sceneEntity.SceneDependencies)
 			{
 				if (_activeScenes.Select(scenePair => scenePair.Key)
@@ -73,31 +69,30 @@ namespace Services.SceneManagement
 					continue;
 				}
 
-				_taskLoadCache.Add(LoadSceneWithDependencies(sceneEntity));
+				loadingSceneTasks.Add(LoadSceneWithDependencies(dependencyScene));
 			}
-			_taskLoadSceneCache.Add(_sceneLoader.LoadScene(sceneEntity));
 
-			await UniTask.WhenAll(_taskLoadCache);
-			var loadedScenes = await UniTask.WhenAll(_taskLoadSceneCache);
+			var loadedScene = await _sceneLoader.LoadScene(sceneEntity);
+			await UniTask.WhenAll(loadingSceneTasks);
 			
-			_taskCache.Clear();
-			foreach (var (scenePath, viewModel) in loadedScenes)
+			var scenePath = loadedScene.Item1;
+			var viewModel = loadedScene.Item2;
+			_activeScenes.Add(scenePath, viewModel);
+			
+			if (viewModel is ISceneView sceneView)
 			{
-				_activeScenes.Add(scenePath, viewModel);
-				
-				if (viewModel is ISceneView sceneView)
-				{
-					sceneView.SetViewModel(_gameViewModel);
-				}
-
-				viewModel.InitializeWithChildViews();
-				viewModel.SetDependencies();
-				viewModel.SubscribeWithChildViews();
-				var activateTask = viewModel.ActivateWithChildViews();
-				_taskCache.Add(activateTask);
+				sceneView.SetViewModel(_gameViewModel);
 			}
+
+			viewModel.InitializeWithChildViews();
+			viewModel.SetDependencies();
+			viewModel.SubscribeWithChildViews();
 			
-			await UniTask.WhenAll(_taskCache);
+			_taskLoadCache.Clear();
+			var activateTask = viewModel.ActivateWithChildViews();
+			_taskLoadCache.Add(activateTask);
+			
+			await UniTask.WhenAll(_taskLoadCache);
 		}
 	}
 }

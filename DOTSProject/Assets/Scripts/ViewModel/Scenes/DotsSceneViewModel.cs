@@ -1,10 +1,12 @@
 ﻿using System.Linq;
 using Application.MessageLog;
+using Cysharp.Threading.Tasks;
 using DotsCore;
 using DotsCore.Events;
 using Model;
 using Services;
 using Services.Configuration;
+using Services.SceneManagement;
 using ViewModel.Dots;
 using Random = UnityEngine.Random;
 
@@ -23,6 +25,15 @@ namespace ViewModel.Scenes
 			InitializeBattle();
 			InitializeChildViewModels();
 			LaunchBattle();
+		}
+
+		public async UniTask ReturnToMainMenu()
+		{
+			var sceneService = _serviceManager.GetService<ISceneService>();
+			var configurationService = _serviceManager.GetService<IConfigurationService>();
+			var battleScene = configurationService.GameConfiguration.MainScene;
+
+			await sceneService.ActivateScene(battleScene, ActivationSceneMode.Single);
 		}
 
 		private void InitializeBattle()
