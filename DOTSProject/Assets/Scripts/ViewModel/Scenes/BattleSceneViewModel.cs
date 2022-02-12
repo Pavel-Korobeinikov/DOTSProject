@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using DotsCore;
+using DotsCore.Events;
 using Model;
 using Services;
 using Services.Configuration;
@@ -34,6 +35,12 @@ namespace ViewModel.Scenes
 				colors);
 			
 			_gameCore = new DotsGame(initializationData);
+			_gameCore.SubscribeOutputPort(CoreEventsHandler);
+		}
+
+		private void CoreEventsHandler(ICoreEvent coreEvent)
+		{
+			
 		}
 
 		private void LaunchBattle()

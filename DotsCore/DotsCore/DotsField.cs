@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using DotsCore.Events;
 
 namespace DotsCore
 {
@@ -9,6 +10,7 @@ namespace DotsCore
 		private readonly int _height;
 		private readonly List<Color> _colors;
 		private readonly Random _random;
+		private readonly EventsNotifier _eventsNotifier;
 		private readonly Dot[,] _grid;
 
 		private readonly List<Dot> _connections = new List<Dot>();
@@ -17,12 +19,14 @@ namespace DotsCore
 			int width,
 			int height,
 			List<Color> colors,
-			Random random)
+			Random random,
+			EventsNotifier eventsNotifier)
 		{
 			_width = width;
 			_height = height;
 			_colors = colors;
 			_random = random;
+			_eventsNotifier = eventsNotifier;
 			_grid = new Dot[width, height];
 		}
 
@@ -36,6 +40,8 @@ namespace DotsCore
 					_grid[x, y] = new Dot(_colors.GetRandomDotColor(_random), position);
 				}
 			}
+			
+			_eventsNotifier.RiseEvent(new GridGeneratedEvent(_grid));
 		}
 
 		public void AddConnection(
@@ -74,7 +80,7 @@ namespace DotsCore
 			}
 		}
 
-		public void RemoveConnectionsFromGrid()
+		public void RemoveConnectionDotsFromGrid()
 		{
 			if (_connections.Count > 1)
 			{
@@ -132,6 +138,8 @@ namespace DotsCore
 					}
 				}
 			}
+			
+			_eventsNotifier.RiseEvent(new GridFallenEvent(_grid));
 		}
 
 		public void Fill()
@@ -149,11 +157,15 @@ namespace DotsCore
 					_grid[x, y] = new Dot(_colors.GetRandomDotColor(_random), position);
 				}
 			}
+			
+			_eventsNotifier.RiseEvent(new GridFilledEvent(_grid));
 		}
 
 		private void RemoveDotFromGrid(Position position)
 		{
 			_grid[position.X, position.Y] = null;
+			
+			_eventsNotifier.RiseEvent(new DotRemovedFromGridEvent(position.X, position.Y));
 		}
 	}
 }

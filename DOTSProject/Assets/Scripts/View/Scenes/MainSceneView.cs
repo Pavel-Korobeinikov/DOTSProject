@@ -1,10 +1,10 @@
 ﻿using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using ViewModel;
+using View.Components;
 using ViewModel.Scenes;
 
-namespace View
+namespace View.Scenes
 {
 	public class MainSceneView : SceneView<MainSceneViewModel>
 	{

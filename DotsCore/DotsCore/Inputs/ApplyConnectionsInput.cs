@@ -1,6 +1,6 @@
 ﻿namespace DotsCore.Inputs
 {
-	public class ApplyConnectionsInput : Input
+	public class ApplyConnectionsInput : IInput
 	{
 		
 	}

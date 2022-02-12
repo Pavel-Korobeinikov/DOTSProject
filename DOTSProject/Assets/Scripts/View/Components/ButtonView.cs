@@ -4,7 +4,7 @@ using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace View
+namespace View.Components
 {
 	public class ButtonView : BaseView
 	{

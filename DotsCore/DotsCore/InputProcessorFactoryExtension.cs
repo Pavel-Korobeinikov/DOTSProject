@@ -13,7 +13,7 @@ namespace DotsCore
 			_field = field;
 		}
 
-		public void ProcessInput(Input input)
+		public void ProcessInput(IInput input)
 		{
 			switch (input)
 			{

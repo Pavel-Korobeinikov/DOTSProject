@@ -1,6 +1,6 @@
 ﻿using ViewModel;
 
-namespace View
+namespace View.Scenes
 {
 	public interface ISceneView
 	{

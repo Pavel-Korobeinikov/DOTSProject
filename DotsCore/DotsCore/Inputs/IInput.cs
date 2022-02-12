@@ -1,6 +1,6 @@
 ﻿namespace DotsCore.Inputs
 {
-	public abstract class Input
+	public interface IInput
 	{
 		
 	}

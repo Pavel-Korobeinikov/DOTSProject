@@ -1,6 +1,6 @@
 ﻿namespace DotsCore.Inputs
 {
-	public class RemoveDotsConnectionInput : Input
+	public class RemoveDotsConnectionInput : IInput
 	{
 		public int FromX { get; }
 		public int FromY { get; }

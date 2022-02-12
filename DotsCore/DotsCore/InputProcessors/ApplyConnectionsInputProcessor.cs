@@ -6,8 +6,9 @@ namespace DotsCore.InputProcessors
 	{
 		public void Process(ApplyConnectionsInput input, DotsField field)
 		{
-			field.RemoveConnectionsFromGrid();
+			field.RemoveConnectionDotsFromGrid();
 			field.Fall();
+			field.Fill();
 		}
 	}
 }

@@ -2,6 +2,7 @@
 using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
+using ViewModel;
 
 namespace View
 {
@@ -144,4 +145,14 @@ namespace View
 			_childViews.Clear();
 		}
 	}
+	
+	public class BaseView<TViewModel> : BaseView, IViewModelHolder where TViewModel : BaseViewModel, new()
+    {
+	    protected TViewModel ViewModel { get; set; }
+
+        public void SetViewModel(BaseViewModel viewModel)
+        {
+	        ViewModel = (TViewModel) viewModel;
+        }
+    }
 }
