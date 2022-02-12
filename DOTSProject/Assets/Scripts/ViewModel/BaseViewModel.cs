@@ -8,7 +8,7 @@ namespace ViewModel
 		protected GameModel _gameModel;
 		protected IServiceManager _serviceManager;
 	
-		public void Initialize(GameModel gameModel, IServiceManager serviceManager)
+		public virtual void Initialize(GameModel gameModel, IServiceManager serviceManager)
 		{
 			_gameModel = gameModel;
 			_serviceManager = serviceManager;

@@ -1,0 +1,10 @@
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Release\DotsCore.csprojAssemblyReference.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Release\DotsCore.csproj.CoreCompileInputs.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Release\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Release\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DOTSProject\DOTSProject\Assets\Temp\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DOTSProject\DOTSProject\Assets\Temp\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DOTSProject\Assets\Temp\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DOTSProject\Assets\Temp\DotsCore.pdb

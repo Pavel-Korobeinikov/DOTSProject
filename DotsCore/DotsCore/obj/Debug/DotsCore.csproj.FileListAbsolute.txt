@@ -1,0 +1,12 @@
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\bin\Debug\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\bin\Debug\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\obj\Debug\DotsCore.csprojAssemblyReference.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\obj\Debug\DotsCore.csproj.CoreCompileInputs.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\obj\Debug\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\DotsCore\obj\Debug\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\bin\Debug\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\bin\Debug\DotsCore.pdb
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Debug\DotsCore.csprojAssemblyReference.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Debug\DotsCore.csproj.CoreCompileInputs.cache
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Debug\DotsCore.dll
+C:\Users\Spray\Documents\work\DOTSProject\DotsCore\DotsCore\obj\Debug\DotsCore.pdb
