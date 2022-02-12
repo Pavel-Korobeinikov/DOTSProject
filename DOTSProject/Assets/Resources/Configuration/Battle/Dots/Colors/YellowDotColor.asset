@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: YellowDotColor
   m_EditorClassIdentifier: 
   _colorName: Yellow
+  _color: {r: 0.8207547, g: 0.7238025, b: 0, a: 1}

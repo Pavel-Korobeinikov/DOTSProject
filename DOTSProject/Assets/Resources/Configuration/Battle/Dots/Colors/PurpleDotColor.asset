@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: PurpleDotColor
   m_EditorClassIdentifier: 
   _colorName: Purple
+  _color: {r: 0.5283019, g: 0, b: 0.35969487, a: 1}

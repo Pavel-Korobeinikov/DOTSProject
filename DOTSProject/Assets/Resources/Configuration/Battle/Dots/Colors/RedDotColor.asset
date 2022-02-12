@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: RedDotColor
   m_EditorClassIdentifier: 
   _colorName: Red
+  _color: {r: 0.7830189, g: 0, b: 0, a: 1}

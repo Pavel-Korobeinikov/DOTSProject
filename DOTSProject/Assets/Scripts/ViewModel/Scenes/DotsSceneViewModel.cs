@@ -1,15 +1,19 @@
 ﻿using System.Linq;
+using Application.MessageLog;
 using DotsCore;
 using DotsCore.Events;
 using Model;
 using Services;
 using Services.Configuration;
+using ViewModel.Dots;
 using Random = UnityEngine.Random;
 
-namespace ViewModel.Scenes.Dots
+namespace ViewModel.Scenes
 {
 	public class DotsSceneViewModel : BaseViewModel
 	{
+		public DotsFieldViewModel FieldViewModel { get; private set; }
+
 		private DotsGame _gameCore;
 		
 		public override void Initialize(GameModel gameModel, IServiceManager serviceManager)
@@ -17,6 +21,7 @@ namespace ViewModel.Scenes.Dots
 			base.Initialize(gameModel, serviceManager);
 
 			InitializeBattle();
+			InitializeChildViewModels();
 			LaunchBattle();
 		}
 
@@ -38,9 +43,17 @@ namespace ViewModel.Scenes.Dots
 			_gameCore.SubscribeOutputPort(CoreEventsHandler);
 		}
 
+		private void InitializeChildViewModels()
+		{
+			FieldViewModel = CreateViewModel<DotsFieldViewModel>();
+		}
+
 		private void CoreEventsHandler(ICoreEvent coreEvent)
 		{
+			MessageLogger.Log($"Event Received: {coreEvent}");
 			
+			var eventHandler = GameCoreEventsHandlerFactory.GetEventHandler(coreEvent, FieldViewModel);
+			eventHandler.Handle();
 		}
 
 		private void LaunchBattle()

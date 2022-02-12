@@ -11,16 +11,6 @@ namespace View
 		private readonly List<BaseView> _childViews = new List<BaseView>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
 		
-		public void SetDependencies()
-		{
-			SetChildViews();
-			
-			foreach (var child in _childViews)
-			{
-				child.SetDependencies();
-			}
-		}
-		
 		public void InitializeWithChildViews()
 		{
 			Initialize();
@@ -28,6 +18,16 @@ namespace View
 			foreach (var child in _childViews)
 			{
 				child.InitializeWithChildViews();
+			}
+		}
+		
+		public void SetDependencies()
+		{
+			SetChildViews();
+			
+			foreach (var child in _childViews)
+			{
+				child.SetDependencies();
 			}
 		}
 
@@ -132,6 +132,7 @@ namespace View
 			}
 			if (!_childViews.Contains(child))
 			{
+				child.Initialize();
 				_childViews.Add(child);
 			}
 			else

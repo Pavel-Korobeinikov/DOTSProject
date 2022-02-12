@@ -13,5 +13,13 @@ namespace ViewModel
 			_gameModel = gameModel;
 			_serviceManager = serviceManager;
 		}
+
+		protected TViewModel CreateViewModel<TViewModel>() where TViewModel : BaseViewModel, new()
+		{
+			var viewModel = new TViewModel();
+			viewModel.Initialize(_gameModel, _serviceManager);
+
+			return viewModel;
+		}
 	}
 }

@@ -90,8 +90,8 @@ namespace Services.SceneManagement
 					sceneView.SetViewModel(_gameViewModel);
 				}
 
-				viewModel.SetDependencies();
 				viewModel.InitializeWithChildViews();
+				viewModel.SetDependencies();
 				viewModel.SubscribeWithChildViews();
 				var activateTask = viewModel.ActivateWithChildViews();
 				_taskCache.Add(activateTask);

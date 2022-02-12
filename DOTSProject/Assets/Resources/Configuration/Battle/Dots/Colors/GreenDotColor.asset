@@ -13,3 +13,4 @@ MonoBehaviour:
   m_Name: GreenDotColor
   m_EditorClassIdentifier: 
   _colorName: Green
+  _color: {r: 0, g: 0.8018868, b: 0.096565865, a: 1}

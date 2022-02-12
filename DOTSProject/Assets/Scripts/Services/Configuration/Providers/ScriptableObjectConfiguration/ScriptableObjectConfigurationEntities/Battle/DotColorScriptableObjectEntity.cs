@@ -7,10 +7,15 @@ namespace Services.Configuration.Providers.ScriptableObjectConfiguration.Scripta
 	public class DotColorScriptableObjectEntity : ScriptableObject
 	{
 		[SerializeField] private string _colorName = default;
-		
+		[SerializeField] private Color _color = default;
+
 		public DotColorEntity GetStructureData()
 		{
-			return new DotColorEntity(_colorName);
+			return new DotColorEntity(
+				_colorName,
+				_color.r,
+				_color.g,
+				_color.b);
 		}
 	}
 }
