@@ -8,14 +8,14 @@ namespace Services.Configuration.Providers.ScriptableObjectConfiguration.Scripta
 	public class GameConfigurationScriptableObjectEntity : ScriptableObject
 	{
 		[SerializeField] private SceneScriptableObjectEntity _mainScene = default;
-		[SerializeField] private SceneScriptableObjectEntity _battleScene = default;
+		[SerializeField] private SceneScriptableObjectEntity _dotsScene = default;
 		[SerializeField] private BattleScriptableObjectEntity _battleConfiguration = default;
 
 		public GameConfigurationEntity GetStructureData()
 		{
 			return new GameConfigurationEntity(
 				_mainScene.GetStructureData(),
-				_battleScene.GetStructureData(),
+				_dotsScene.GetStructureData(),
 				_battleConfiguration.GetStructureData());
 		}
 	}

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: GameConfiguration
   m_EditorClassIdentifier: 
   _mainScene: {fileID: 11400000, guid: 1e5ce262a96db82469a526395b27836c, type: 2}
-  _battleScene: {fileID: 11400000, guid: acd374bb8759b1a4f9d9c435302bbdec, type: 2}
+  _dotsScene: {fileID: 11400000, guid: acd374bb8759b1a4f9d9c435302bbdec, type: 2}
   _battleConfiguration: {fileID: 11400000, guid: e0808ea53eaab4e48893fb387455bb38, type: 2}
