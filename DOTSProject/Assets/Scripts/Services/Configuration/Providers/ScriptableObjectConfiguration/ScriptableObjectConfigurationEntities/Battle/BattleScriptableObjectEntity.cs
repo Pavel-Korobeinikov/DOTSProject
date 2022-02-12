@@ -5,6 +5,7 @@ using UnityEngine;
 
 namespace Services.Configuration.Providers.ScriptableObjectConfiguration.ScriptableObjectConfigurationEntities.Battle
 {
+	[CreateAssetMenu(fileName = "Battle Configuration", menuName = "Configuration/Battle/Battle Configuration", order = 1)]
 	public class BattleScriptableObjectEntity : ScriptableObject
 	{
 		[Header("Grid Settings")]

@@ -16,6 +16,7 @@ namespace ViewModel.Scenes
 			base.Initialize(gameModel, serviceManager);
 
 			InitializeBattle();
+			LaunchBattle();
 		}
 
 		private void InitializeBattle()
@@ -33,6 +34,11 @@ namespace ViewModel.Scenes
 				colors);
 			
 			_gameCore = new DotsGame(initializationData);
+		}
+
+		private void LaunchBattle()
+		{
+			_gameCore.Launch();
 		}
 	}
 }

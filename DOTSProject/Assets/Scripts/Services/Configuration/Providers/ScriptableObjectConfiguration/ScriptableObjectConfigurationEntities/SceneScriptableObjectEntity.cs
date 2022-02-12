@@ -11,6 +11,8 @@ namespace Services.Configuration.Providers.ScriptableObjectConfiguration.Scripta
 		[HideInInspector] [SerializeField] private string _scenePath = default;
 		[SerializeField] private List<SceneScriptableObjectEntity> _sceneDependencies = default;
 
+		public string ScenePath => _scenePath;
+
 		public SceneEntity GetStructureData()
 		{
 			return new SceneEntity(

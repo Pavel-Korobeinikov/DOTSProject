@@ -9,8 +9,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 73b46e828f194af59190eec34a883d98, type: 3}
-  m_Name: MainScene
+  m_Script: {fileID: 11500000, guid: e8077439f44441ab9aaffd05e1c2d7fb, type: 3}
+  m_Name: RedDot
   m_EditorClassIdentifier: 
-  _scenePath: Assets/Scenes/UI/UI_MainMenu.unity
-  _sceneDependencies: []
+  _color: {fileID: 11400000, guid: eca4b611d9a42594c9729249ee4f8194, type: 2}
