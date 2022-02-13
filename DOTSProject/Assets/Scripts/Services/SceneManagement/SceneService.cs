@@ -61,6 +61,7 @@ namespace Services.SceneManagement
 		private async UniTask LoadSceneWithDependencies(SceneEntity sceneEntity)
 		{
 			var loadingSceneTasks = new List<UniTask>();
+			var loadedScene = await _sceneLoader.LoadScene(sceneEntity);
 			foreach (var dependencyScene in sceneEntity.SceneDependencies)
 			{
 				if (_activeScenes.Select(scenePair => scenePair.Key)
@@ -72,7 +73,6 @@ namespace Services.SceneManagement
 				loadingSceneTasks.Add(LoadSceneWithDependencies(dependencyScene));
 			}
 
-			var loadedScene = await _sceneLoader.LoadScene(sceneEntity);
 			await UniTask.WhenAll(loadingSceneTasks);
 			
 			var scenePath = loadedScene.Item1;

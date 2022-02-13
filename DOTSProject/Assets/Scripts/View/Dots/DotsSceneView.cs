@@ -1,10 +1,10 @@
 ﻿using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
-using View.Dots;
-using ViewModel.Scenes;
+using View.Scenes;
+using ViewModel.Dots;
 
-namespace View.Scenes
+namespace View.Dots
 {
 	public class DotsSceneView : SceneView<DotsSceneViewModel>
 	{
@@ -19,7 +19,7 @@ namespace View.Scenes
 
 		protected override void Initialize()
 		{
-			ViewModel.InitializeBattle();
+			ViewModel.InitializeGameCore();
 		}
 
 		protected override UniTask Activate()

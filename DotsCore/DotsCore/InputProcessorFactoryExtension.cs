@@ -6,24 +6,28 @@ namespace DotsCore
 {
 	public class InputProcessManager
 	{
-		private readonly DotsField _field;
+		private readonly DotsConnectionAggregator _dotsConnectionAggregator;
 
-		public InputProcessManager(DotsField field)
+		public InputProcessManager(DotsConnectionAggregator dotsConnectionAggregator)
 		{
-			_field = field;
+			_dotsConnectionAggregator = dotsConnectionAggregator;
 		}
 
 		public void ProcessInput(IInput input)
 		{
 			switch (input)
 			{
-				case AddDotsConnectionInput addDotsConnectionInput:
-					var processor = new AddDotsConnectionInputProcessor();
-					processor.Process(addDotsConnectionInput, _field);
+				case DotSelectedInput dotSelectedInput:
+					var dotSelectedInputProcessor = new DotSelectedInputProcessor();
+					dotSelectedInputProcessor.Process(dotSelectedInput, _dotsConnectionAggregator);
 					break;
+				case ApplySelectionInput applySelectionInput:
+					var applySelectionInputProcessor = new ApplySelectionInputProcessor();
+					applySelectionInputProcessor.Process(applySelectionInput, _dotsConnectionAggregator);
+					break;
+				default:
+					throw new Exception("Unknown input");
 			}
-
-			throw new Exception("Unknown input");
 		}
 	}
 }

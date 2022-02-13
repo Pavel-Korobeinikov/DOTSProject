@@ -1,6 +1,6 @@
 ﻿using ViewModel;
 
-namespace View.Scenes
+namespace View
 {
 	public class SceneView<TViewModel> : BaseView, ISceneView where TViewModel : BaseViewModel, new()
 	{

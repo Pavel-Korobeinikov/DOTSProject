@@ -2,7 +2,7 @@
 using Services.Configuration;
 using Services.SceneManagement;
 
-namespace ViewModel.Scenes
+namespace ViewModel
 {
 	public class MainSceneViewModel : BaseViewModel
 	{

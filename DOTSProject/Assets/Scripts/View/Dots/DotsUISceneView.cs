@@ -1,9 +1,10 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using View.Components;
-using ViewModel.Scenes;
+using View.Scenes;
+using ViewModel.Dots;
 
-namespace View.Scenes
+namespace View.Dots
 {
 	public class DotsUISceneView : SceneView<DotsSceneViewModel>
 	{

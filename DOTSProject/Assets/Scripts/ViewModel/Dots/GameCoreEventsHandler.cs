@@ -10,11 +10,21 @@ namespace ViewModel.Dots
 		{
 			switch (coreEvent)
 			{
+				case DotConnectedEvent gridGeneratedEvent:
+					return new DotConnectedEventHandler(gridGeneratedEvent, fieldViewModel);
+				case DotDisconnectedEvent gridGeneratedEvent:
+					return new DotDisconnectedEventHandler(gridGeneratedEvent, fieldViewModel);
+				case DotRemovedFromGridEvent gridGeneratedEvent:
+					return new DotRemovedFromGridEventHandler(gridGeneratedEvent, fieldViewModel);
+				case GridFallenEvent gridGeneratedEvent:
+					return new GridFallenEventHandler(gridGeneratedEvent, fieldViewModel);
+				case GridFilledEvent gridGeneratedEvent:
+					return new GridFilledEventHandler(gridGeneratedEvent, fieldViewModel);
 				case GridGeneratedEvent gridGeneratedEvent:
 					return new GridGeneratedEventHandler(gridGeneratedEvent, fieldViewModel);
+				default:
+					throw new Exception("Event handler is missing.");
 			}
-
-			throw new Exception("Event handler is missing.");
 		}
 	}
 }

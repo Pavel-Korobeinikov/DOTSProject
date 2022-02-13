@@ -7,26 +7,27 @@ using Model;
 using Services;
 using Services.Configuration;
 using Services.SceneManagement;
-using ViewModel.Dots;
 using Random = UnityEngine.Random;
 
-namespace ViewModel.Scenes
+namespace ViewModel.Dots
 {
 	public class DotsSceneViewModel : BaseViewModel
 	{
 		public DotsFieldViewModel FieldViewModel { get; private set; }
 
 		private DotsGame _gameCore;
+		private CoreInputDispatcher _inputDispatcher;
 		
 		public override void Initialize(GameModel gameModel, IServiceManager serviceManager)
 		{
 			base.Initialize(gameModel, serviceManager);
-
+			
+			InitializeGameCore();
 			InitializeChildViewModels();
-			InitializeBattle();
+			LaunchGameCore();
 		}
 
-		public void InitializeBattle()
+		public void InitializeGameCore()
 		{
 			var battleConfiguration = _serviceManager.GetService<IConfigurationService>()
 				.GameConfiguration
@@ -41,8 +42,8 @@ namespace ViewModel.Scenes
 				colors);
 			
 			_gameCore = new DotsGame(initializationData);
+			_inputDispatcher = new CoreInputDispatcher(_gameCore);
 			_gameCore.SubscribeOutputPort(CoreEventsHandler);
-			_gameCore.Launch();
 		}
 
 		public async UniTask ReturnToMainMenu()
@@ -57,6 +58,12 @@ namespace ViewModel.Scenes
 		private void InitializeChildViewModels()
 		{
 			FieldViewModel = CreateViewModel<DotsFieldViewModel>();
+			FieldViewModel.SetCoreInputDispatcher(_inputDispatcher);
+		}
+
+		private void LaunchGameCore()
+		{
+			_gameCore.Launch();
 		}
 
 		private void CoreEventsHandler(ICoreEvent coreEvent)

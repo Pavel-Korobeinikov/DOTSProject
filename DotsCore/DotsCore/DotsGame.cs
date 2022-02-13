@@ -6,22 +6,22 @@ namespace DotsCore
 {
 	public class DotsGame
 	{
-		private readonly Random _random;
 		private readonly DotsField _field;
 		private readonly InputProcessManager _inputProcessManager;
 		private readonly EventsNotifier _eventsNotifier;
 
 		public DotsGame(DotsGameInitializationData initializationData)
 		{
-			_random = new Random(initializationData.Seed);
+			var random = new Random(initializationData.Seed);
 			_eventsNotifier = new EventsNotifier();
 			_field = new DotsField(
 				initializationData.Width,
 				initializationData.Height,
 				initializationData.Colors,
-				_random,
+				random,
 				_eventsNotifier);
-			_inputProcessManager = new InputProcessManager(_field);
+			var dotsConnectionAggregator = new DotsConnectionAggregator(_field, _eventsNotifier);
+			_inputProcessManager = new InputProcessManager(dotsConnectionAggregator);
 		}
 
 		public void Launch()

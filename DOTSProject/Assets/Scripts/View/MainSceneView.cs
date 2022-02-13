@@ -2,7 +2,7 @@
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using View.Components;
-using ViewModel.Scenes;
+using ViewModel;
 
 namespace View.Scenes
 {
