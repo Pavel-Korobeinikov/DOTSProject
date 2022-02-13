@@ -136,10 +136,13 @@ namespace View.Dots
 						dotView = InstantiateDot(x, y);
 						UniTask.Action(() => AddChildView(dotView)).Invoke();
 					}
+					else
+					{
+						var preferredPosition = _gridPositions[x, y];
+						dotView.SetPreferredPosition(preferredPosition);
+					}
 					
 					gridCache[x, y] = dotView;
-					var preferredPosition = _gridPositions[x, y];
-					dotView.SetPreferredPosition(preferredPosition);
 				}
 			}
 
@@ -151,6 +154,8 @@ namespace View.Dots
 			//TODO: Use GameObject Pool
 			var instantiatedView = Instantiate(_dotPrefab, _dotsPlaceholder);
 			var preferredPosition = _gridPositions[x, y];
+			var instantiatedPosition = new Vector2(preferredPosition.x, preferredPosition.y + _dotSpawnIndent);
+			instantiatedView.SetCurrentPosition(instantiatedPosition);
 			var dotViewModel = ViewModel.Grid[x, y];
 			instantiatedView.SetViewModel(dotViewModel);
 			instantiatedView.SetPreferredPosition(preferredPosition);

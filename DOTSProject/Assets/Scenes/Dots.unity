@@ -156,7 +156,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _dotHorizontalSpacing: 60
   _dotVerticalSpacing: 60
-  _dotSpawnIndent: 0
+  _dotSpawnIndent: 1920
   _dotsPlaceholder: {fileID: 1648421917}
   _dotPrefab: {fileID: 1539976916141042635, guid: 39c52c4d1ee2c004dba58b32e821be15, type: 3}
 --- !u!224 &877557092
