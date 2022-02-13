@@ -22,21 +22,11 @@ namespace ViewModel.Scenes
 		{
 			base.Initialize(gameModel, serviceManager);
 
-			InitializeBattle();
 			InitializeChildViewModels();
-			LaunchBattle();
+			InitializeBattle();
 		}
 
-		public async UniTask ReturnToMainMenu()
-		{
-			var sceneService = _serviceManager.GetService<ISceneService>();
-			var configurationService = _serviceManager.GetService<IConfigurationService>();
-			var battleScene = configurationService.GameConfiguration.MainScene;
-
-			await sceneService.ActivateScene(battleScene, ActivationSceneMode.Single);
-		}
-
-		private void InitializeBattle()
+		public void InitializeBattle()
 		{
 			var battleConfiguration = _serviceManager.GetService<IConfigurationService>()
 				.GameConfiguration
@@ -52,6 +42,16 @@ namespace ViewModel.Scenes
 			
 			_gameCore = new DotsGame(initializationData);
 			_gameCore.SubscribeOutputPort(CoreEventsHandler);
+			_gameCore.Launch();
+		}
+
+		public async UniTask ReturnToMainMenu()
+		{
+			var sceneService = _serviceManager.GetService<ISceneService>();
+			var configurationService = _serviceManager.GetService<IConfigurationService>();
+			var battleScene = configurationService.GameConfiguration.MainScene;
+
+			await sceneService.ActivateScene(battleScene, ActivationSceneMode.Single);
 		}
 
 		private void InitializeChildViewModels()
@@ -65,11 +65,6 @@ namespace ViewModel.Scenes
 			
 			var eventHandler = GameCoreEventsHandlerFactory.GetEventHandler(coreEvent, FieldViewModel);
 			eventHandler.Handle();
-		}
-
-		private void LaunchBattle()
-		{
-			_gameCore.Launch();
 		}
 	}
 }

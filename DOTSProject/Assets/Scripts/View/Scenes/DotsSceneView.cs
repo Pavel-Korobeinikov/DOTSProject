@@ -17,12 +17,17 @@ namespace View.Scenes
 			AddChildView(_dotsFieldView);
 		}
 
+		protected override void Initialize()
+		{
+			ViewModel.InitializeBattle();
+		}
+
 		protected override UniTask Activate()
 		{
 			MessageLogger.Log("Battle Scene Activated");
 			
 			//TODO: Implement animation transition between scenes
-			
+
 			return base.Activate();
 		}
 		
