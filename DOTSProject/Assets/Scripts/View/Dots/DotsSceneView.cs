@@ -19,7 +19,7 @@ namespace View.Dots
 
 		protected override void Initialize()
 		{
-			ViewModel.InitializeGameCore();
+			ViewModel.LaunchGame();
 		}
 
 		protected override UniTask Activate()

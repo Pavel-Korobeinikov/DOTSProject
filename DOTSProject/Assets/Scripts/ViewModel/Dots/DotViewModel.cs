@@ -22,6 +22,7 @@ namespace ViewModel.Dots
 				}
 			}
 		}
+		
 		public Dot DotData { get; private set; }
 		public float R { get; private set; }
 		public float G { get; private set; }
@@ -32,7 +33,7 @@ namespace ViewModel.Dots
 
 		public void SetDotInfo(Dot dot)
 		{
-			var gameConfiguration = _serviceManager.GetService<IConfigurationService>().GameConfiguration;
+			var gameConfiguration = ServiceManager.GetService<IConfigurationService>().GameConfiguration;
 			var dotEntities = gameConfiguration.BattleConfiguration.Dots;
 			var dotEntity = dotEntities.First(entity => entity.Color.Name == dot.Color.Name);
 

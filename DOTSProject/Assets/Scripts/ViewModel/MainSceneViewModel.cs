@@ -8,8 +8,8 @@ namespace ViewModel
 	{
 		public async UniTask ActivateBattleScene()
 		{
-			var sceneService = _serviceManager.GetService<ISceneService>();
-			var configurationService = _serviceManager.GetService<IConfigurationService>();
+			var sceneService = ServiceManager.GetService<ISceneService>();
+			var configurationService = ServiceManager.GetService<IConfigurationService>();
 			var battleScene = configurationService.GameConfiguration.DotsScene;
 
 			await sceneService.ActivateScene(battleScene, ActivationSceneMode.Single);

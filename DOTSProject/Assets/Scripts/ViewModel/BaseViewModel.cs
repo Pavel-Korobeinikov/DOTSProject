@@ -5,19 +5,19 @@ namespace ViewModel
 {
 	public abstract class BaseViewModel
 	{
-		protected GameModel _gameModel;
-		protected IServiceManager _serviceManager;
+		protected GameModel GameModel;
+		protected IServiceManager ServiceManager;
 	
-		public virtual void Initialize(GameModel gameModel, IServiceManager serviceManager)
+		public void Initialize(GameModel gameModel, IServiceManager serviceManager)
 		{
-			_gameModel = gameModel;
-			_serviceManager = serviceManager;
+			GameModel = gameModel;
+			ServiceManager = serviceManager;
 		}
 
 		protected TViewModel CreateViewModel<TViewModel>() where TViewModel : BaseViewModel, new()
 		{
 			var viewModel = new TViewModel();
-			viewModel.Initialize(_gameModel, _serviceManager);
+			viewModel.Initialize(GameModel, ServiceManager);
 
 			return viewModel;
 		}
