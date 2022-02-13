@@ -12,17 +12,14 @@ namespace View.Scenes
 
 		protected override void SetChildViews()
 		{
-			AddChildView(startEndlessModeButtonView);
-		}
-
-		protected override void Subscribe()
-		{
-			startEndlessModeButtonView.ButtonClicked += OnStartEndlessModeButtonClicked;
+			UniTask.Action(() => AddChildView(startEndlessModeButtonView)).Invoke();
 		}
 
 		protected override UniTask Activate()
 		{
 			MessageLogger.Log("Main Scene Activated");
+			
+			startEndlessModeButtonView.ButtonClicked += OnStartEndlessModeButtonClicked;
 			
 			//TODO: Implement animation transition between scenes
 			
@@ -33,14 +30,11 @@ namespace View.Scenes
 		{
 			MessageLogger.Log("Main Scene Deactivated");
 			
+			startEndlessModeButtonView.ButtonClicked -= OnStartEndlessModeButtonClicked;
+			
 			//TODO: Implement animation transition between scenes
 
 			return base.Deactivate();
-		}
-
-		protected override void Unsubscribe()
-		{
-			startEndlessModeButtonView.ButtonClicked -= OnStartEndlessModeButtonClicked;
 		}
 
 		private void OnStartEndlessModeButtonClicked()

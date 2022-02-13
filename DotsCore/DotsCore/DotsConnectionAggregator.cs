@@ -19,32 +19,33 @@ namespace DotsCore
 			_eventsNotifier = eventsNotifier;
 		}
 
-		public void TryAddConnection(Position to)
+		public void TryAddConnection(Position toPosition)
 		{
-			var fromDotConnection = _connections.FirstOrDefault();
-			var toDotConnection = _field.Grid[to.X, to.Y];
+			var fromDotConnection = _connections.LastOrDefault();
+			var toDotConnection = _field.Grid[toPosition.X, toPosition.Y];
 
 			if (fromDotConnection == null ||
 			    fromDotConnection.Color.Name == toDotConnection.Color.Name &&
-			    Math.Abs(fromDotConnection.Position.X - to.X) <= 1 && Math.Abs(fromDotConnection.Position.Y - to.Y) <= 1 &&
-			    (Math.Abs(fromDotConnection.Position.X - to.X) != 1 || Math.Abs(fromDotConnection.Position.Y - to.Y) != 1))
+			    Math.Abs(fromDotConnection.Position.X - toPosition.X) <= 1 && 
+			    Math.Abs(fromDotConnection.Position.Y - toPosition.Y) <= 1 &&
+			    (Math.Abs(fromDotConnection.Position.X - toPosition.X) != 1 || Math.Abs(fromDotConnection.Position.Y - toPosition.Y) != 1))
 			{
 				_connections.Add(toDotConnection);
 				
-				_eventsNotifier.RiseEvent(new DotConnectedEvent(to.X, to.Y));
+				_eventsNotifier.RiseEvent(new DotConnectedEvent(toPosition));
 			}
 		}
 
 		public void TryRemoveConnection(Position fromPosition)
 		{
 			var lastDotConnection = _field.Grid[fromPosition.X, fromPosition.Y];
-
-			if (_connections.Count != 0 &&
-			    _connections[_connections.Count - 1] == lastDotConnection)
+			
+			if (_connections.Count > 1 &&
+			    _connections[_connections.Count - 2] == lastDotConnection)
 			{
 				_connections.Remove(lastDotConnection);
 				
-				_eventsNotifier.RiseEvent(new DotDisconnectedEvent(fromPosition.X, fromPosition.Y));
+				_eventsNotifier.RiseEvent(new DotDisconnectedEvent(fromPosition));
 			}
 		}
 		
@@ -60,11 +61,8 @@ namespace DotsCore
 				_field.Fall();
 				_field.Fill();
 			}
-			else
-			{
-				_connections.Clear();
-			}
 			
+			_connections.Clear();
 			_eventsNotifier.RiseEvent(new DotsConnectionClearedEvent());
 		}
 	}

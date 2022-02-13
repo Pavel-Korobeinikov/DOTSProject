@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -10,10 +11,14 @@ namespace View
 	{
 		private readonly List<BaseView> _childViews = new List<BaseView>();
 		private readonly List<UniTask> _taskCache = new List<UniTask>();
-		
+
+		public ViewState ViewState { get; private set; } = ViewState.NotInitialized;
+
 		public void InitializeWithChildViews()
 		{
 			Initialize();
+
+			ViewState = ViewState.Initialized;
 			
 			foreach (var child in _childViews)
 			{
@@ -25,22 +30,14 @@ namespace View
 		{
 			SetChildViews();
 			
+			ViewState = ViewState.WithDependencies;
+			
 			foreach (var child in _childViews)
 			{
 				child.SetDependencies();
 			}
 		}
 
-		public void SubscribeWithChildViews()
-		{
-			Subscribe();
-			
-			foreach (var child in _childViews)
-			{
-				child.SubscribeWithChildViews();
-			}
-		}
-		
 		public async UniTask ActivateWithChildViews()
 		{
 			_taskCache.Clear();
@@ -51,6 +48,8 @@ namespace View
 			}
 
 			await UniTask.WhenAll(_taskCache);
+			
+			ViewState = ViewState.Activated;
 		}
 		
 		public async UniTask DeactivateWithChildViews()
@@ -63,21 +62,15 @@ namespace View
 			}
 
 			await UniTask.WhenAll(_taskCache);
-		}
-		
-		public void UnsubscribeWithChildViews()
-		{
-			Unsubscribe();
 			
-			foreach (var child in _childViews)
-			{
-				child.UnsubscribeWithChildViews();
-			}
+			ViewState = ViewState.Deactivated;
 		}
-		
+
 		public void UtilizeWithChildViews()
 		{
 			Utilize();
+			
+			ViewState = ViewState.Utilized;
 			
 			foreach (var child in _childViews)
 			{
@@ -97,11 +90,6 @@ namespace View
 			
 		}
 
-		protected virtual void Subscribe()
-		{
-			
-		}
-
 		protected virtual UniTask Activate()
 		{
 			return UniTask.CompletedTask;
@@ -111,18 +99,59 @@ namespace View
 		{
 			return UniTask.CompletedTask;
 		}
-
-		protected virtual void Unsubscribe()
-		{
-			
-		}
 		
 		protected virtual void Utilize()
 		{
 			
 		}
 
-		protected void AddChildView(BaseView child)
+		protected async UniTaskVoid AddChildView(BaseView child)
+		{
+			if (child == null)
+			{
+				MessageLogger.LogError($"Child View in parent with type {GetType()} is null");
+				
+				return;	
+			}
+			if (ViewState == ViewState.NotInitialized)
+			{
+				MessageLogger.LogError($"Can't add child view in non initialized view");
+				
+				return;
+			}
+			
+			if (!_childViews.Contains(child))
+			{
+				if (ViewState == ViewState.Initialized ||
+				    ViewState == ViewState.WithDependencies ||
+				    ViewState == ViewState.Activated)
+				{
+					child.InitializeWithChildViews();
+				}
+				if (ViewState == ViewState.WithDependencies ||
+				    ViewState == ViewState.Activated)
+				{
+					child.SetDependencies();
+				}
+				if (ViewState == ViewState.Activated)
+				{
+					await child.ActivateWithChildViews();
+				}
+				if (ViewState == ViewState.Deactivated ||
+				    ViewState == ViewState.Utilized)
+				{
+					MessageLogger.LogError("Can't add child view when base view was deactivated or utilized");
+				}
+
+				_childViews.Add(child);
+			}
+			else
+			{
+				MessageLogger.LogError("View already have same child.");
+			}
+		}
+		
+		protected void RemoveChildView(BaseView child)
 		{
 			if (child == null)
 			{
@@ -132,12 +161,17 @@ namespace View
 			}
 			if (!_childViews.Contains(child))
 			{
-				child.Initialize();
-				_childViews.Add(child);
+				MessageLogger.LogError($"View is not contains child {child}.");
 			}
 			else
 			{
-				MessageLogger.LogError("View already have same child.");
+				if (child.ViewState == ViewState.Activated)
+				{
+					child.Deactivate();
+				}
+
+				child.Utilize();
+				_childViews.Remove(child);
 			}
 		}
 
@@ -149,7 +183,7 @@ namespace View
 	
 	public class BaseView<TViewModel> : BaseView, IViewModelHolder where TViewModel : BaseViewModel, new()
     {
-	    protected TViewModel ViewModel { get; set; }
+	    public TViewModel ViewModel { get; private set; }
 
         public void SetViewModel(BaseViewModel viewModel)
         {

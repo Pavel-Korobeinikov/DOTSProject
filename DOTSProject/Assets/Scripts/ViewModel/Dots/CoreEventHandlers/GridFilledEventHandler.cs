@@ -15,7 +15,7 @@ namespace ViewModel.Dots.CoreEventHandlers
 		
 		public void Handle()
 		{
-			
+			_dotsFieldViewModel.UpdateGrid(_coreEvent.UpdatedGrid);
 		}
 	}
 }

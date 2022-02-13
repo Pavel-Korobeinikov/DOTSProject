@@ -2,13 +2,11 @@
 {
 	public class DotSelectedInput : IInput
 	{
-		public int X { get; }
-		public int Y { get; }
+		public Position Position { get; }
 
-		public DotSelectedInput(int x, int y)
+		public DotSelectedInput(Position position)
 		{
-			X = x;
-			Y = y;
+			Position = position;
 		}
 	}
 }

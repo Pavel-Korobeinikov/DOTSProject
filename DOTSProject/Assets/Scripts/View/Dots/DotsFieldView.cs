@@ -1,4 +1,5 @@
 ﻿using Cysharp.Threading.Tasks;
+using DotsCore;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using ViewModel.Dots;
@@ -15,11 +16,12 @@ namespace View.Dots
 		[SerializeField] private Transform _dotsPlaceholder = default;
 		[SerializeField] private DotView _dotPrefab = default;
 
+		private DotView[,] Grid { get; set; }
+		
 		private float _dotWidth;
 		private float _dotHeight;
 		private Vector2[,] _gridPositions;
 
-		public DotView[,] Grid { get; private set; }
 
 		protected override void Initialize()
 		{
@@ -37,23 +39,24 @@ namespace View.Dots
 
 			foreach (var dotView in Grid)
 			{
-				AddChildView(dotView);
+				UniTask.Action(() => AddChildView(dotView)).Invoke();
 			}
 		}
-
-		protected override void Subscribe()
+		
+		protected override async UniTask Activate()
 		{
+			ViewModel.GridUpdated += OnGridUpdated;
 			ViewModel.DotKilled += OnDotKilled;
+
+			await UniTask.CompletedTask;
 		}
 
-		protected override UniTask Activate()
-		{
-			return UniTask.CompletedTask;
-		}
-
-		protected override void Unsubscribe()
+		protected override async UniTask Deactivate()
 		{
 			ViewModel.DotKilled -= OnDotKilled;
+			ViewModel.GridUpdated -= OnGridUpdated;
+
+			await UniTask.CompletedTask;
 		}
 
 		private void FillFieldPositions()
@@ -68,25 +71,6 @@ namespace View.Dots
 					var positionY = -(_dotVerticalSpacing * y) - (_dotHeight * y);
 					
 					_gridPositions[x, y] = new Vector2(positionX, positionY);
-				}
-			}
-		}
-
-		private void CreateFieldView()
-		{
-			Grid = new DotView[ViewModel.Width, ViewModel.Height];
-			
-			for (var x = 0; x < ViewModel.Width; x++)
-			{
-				for (var y = 0; y < ViewModel.Height; y++)
-				{
-					//TODO: Use GameObject Pool
-					var instantiatedView = Instantiate(_dotPrefab, _dotsPlaceholder);
-					var preferredPosition = _gridPositions[x, y];
-					var dotViewModel = ViewModel.Grid[x, y];
-					instantiatedView.SetViewModel(dotViewModel);
-					instantiatedView.SetPreferredPosition(preferredPosition);
-					Grid[x,y] = instantiatedView;
 				}
 			}
 		}
@@ -110,12 +94,85 @@ namespace View.Dots
 			// Method needed for work of OnPointerUp
 		}
 
-		private void OnDotKilled(int x, int y)
+		private void CreateFieldView()
 		{
-			var dot = Grid[x, y];
+			Grid = new DotView[ViewModel.Width, ViewModel.Height];
+			
+			for (var x = 0; x < ViewModel.Width; x++)
+			{
+				for (var y = 0; y < ViewModel.Height; y++)
+				{
+					var dotView = InstantiateDot(x, y);
+					Grid[x, y] = dotView;
+				}
+			}
+		}
+
+		private void OnDotKilled(Position position)
+		{
+			var dot = Grid[position.X, position.Y];
 			dot.Kill();
+			RemoveChildView(dot);
 			Destroy(dot.gameObject);
-			Grid[x, y] = null;
+			Grid[position.X, position.Y] = null;
+		}
+		
+		private void OnGridUpdated()
+		{
+			var gridCache = new DotView[ViewModel.Width, ViewModel.Height];
+			for (var x = 0; x < ViewModel.Width; x++)
+			{
+				for (var y = 0; y < ViewModel.Height; y++)
+				{
+					var dotViewModel = ViewModel.Grid[x, y];
+					if (dotViewModel == null)
+					{
+						continue;
+					}
+
+					var dotView = GetDotViewByViewModel(dotViewModel);
+					if (dotView == null)
+					{
+						dotView = InstantiateDot(x, y);
+						UniTask.Action(() => AddChildView(dotView)).Invoke();
+					}
+					
+					gridCache[x, y] = dotView;
+					var preferredPosition = _gridPositions[x, y];
+					dotView.SetPreferredPosition(preferredPosition);
+				}
+			}
+
+			Grid = gridCache;
+		}
+
+		private DotView InstantiateDot(int x, int y)
+		{
+			//TODO: Use GameObject Pool
+			var instantiatedView = Instantiate(_dotPrefab, _dotsPlaceholder);
+			var preferredPosition = _gridPositions[x, y];
+			var dotViewModel = ViewModel.Grid[x, y];
+			instantiatedView.SetViewModel(dotViewModel);
+			instantiatedView.SetPreferredPosition(preferredPosition);
+
+			return instantiatedView;
+		}
+
+		private DotView GetDotViewByViewModel(DotViewModel dotViewModel)
+		{
+			for (var x = 0; x < ViewModel.Width; x++)
+			{
+				for (var y = 0; y < ViewModel.Height; y++)
+				{
+					var dotView = Grid[x, y];
+					if (dotView != null && dotView.ViewModel == dotViewModel)
+					{
+						return dotView;
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

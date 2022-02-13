@@ -3,7 +3,7 @@
 	public class Dot
 	{
 		public Color Color { get; }
-		public Position Position { get; }
+		public Position Position { get; internal set; }
 
 		public Dot(Color color, Position position)
 		{

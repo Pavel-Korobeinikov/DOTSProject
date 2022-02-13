@@ -34,7 +34,7 @@ namespace DotsCore
 		{
 			for (var x = 0; x < _width; x++)
 			{
-				for (var y = 0; y < _height; y++)
+				for (var y = _height - 1; y >= 0; y--)
 				{
 					var position = new Position(x, y);
 					_grid[x, y] = new Dot(_colors.GetRandomDotColor(_random), position);
@@ -48,7 +48,7 @@ namespace DotsCore
 		{
 			_grid[position.X, position.Y] = null;
 			
-			_eventsNotifier.RiseEvent(new DotRemovedFromGridEvent(position.X, position.Y));
+			_eventsNotifier.RiseEvent(new DotRemovedFromGridEvent(position));
 		}
 
 		public void Fall()
@@ -58,7 +58,7 @@ namespace DotsCore
 				for (var y = _height - 1; y >= 0; y--)
 				{
 					var upperY = y - 1;
-					if (upperY != 0)
+					if (upperY < 0)
 					{
 						break;
 					}
@@ -75,6 +75,8 @@ namespace DotsCore
 						continue;
 					}
 
+					upperDot.Position = new Position(x, y);
+					
 					_grid[x, y] = upperDot;
 					_grid[x, upperY] = null;
 				}
@@ -85,7 +87,7 @@ namespace DotsCore
 				for (var y = _height - 1; y >= 0; y--)
 				{
 					var upperY = y - 1;
-					if (upperY != 0)
+					if (upperY < 0)
 					{
 						break;
 					}

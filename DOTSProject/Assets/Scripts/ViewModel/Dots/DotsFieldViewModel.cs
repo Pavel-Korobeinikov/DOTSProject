@@ -6,7 +6,8 @@ namespace ViewModel.Dots
 {
 	public class DotsFieldViewModel : BaseViewModel
 	{
-		public event Action<int, int> DotKilled;
+		public event Action<Position> DotKilled;
+		public event Action GridUpdated;
 
 		public int Width { get; private set; }
 		public int Height { get; private set; }
@@ -29,39 +30,99 @@ namespace ViewModel.Dots
 			{
 				for (var y = 0; y < Height; y++)
 				{
-					var dotViewModel = CreateViewModel<DotViewModel>();
-					dotViewModel.SetDotInfo(grid[x, y]);
-					dotViewModel.SubscribeOnPressEvent(OnDotPressed);
-					dotViewModel.SubscribeOnPressEndedEvent(OnDotPressEnded);
-					Grid[x, y] = dotViewModel;
+					CreateDotViewModel(grid[x, y]);
 				}
 			}
 		}
 		
-		public void RemoveDotFromField(int x, int y)
+		public void RemoveDotFromField(Position position)
 		{
 			//TODO: Cache used of ViewModels
-			var removedDot = Grid[x, y];
+			var removedDot = Grid[position.X, position.Y];
 			
-			DotKilled?.Invoke(x, y);
+			DotKilled?.Invoke(position);
 			
 			removedDot.Destroy();
-			Grid[x, y] = null;
+			Grid[position.X, position.Y] = null;
 		}
 
-		private void OnDotPressed(DotViewModel dotViewModel)
+		public void UpdateGrid(Dot[,] grid)
 		{
-			_inputDispatcher.Dispatch(new DotSelectedInput(dotViewModel.X, dotViewModel.Y));
-		}
+			var gridCache = new DotViewModel[Width, Height];
+			for (var x = 0; x < Width; x++)
+			{
+				for (var y = 0; y < Height; y++)
+				{
+					var dot = grid[x, y];
+					var dotViewModel = GetDotViewModel(dot);
 
-		private void OnDotPressEnded(DotViewModel obj)
-		{
-			DotsPressFinished();
+					if (dot != null && dotViewModel != null)
+					{
+						UpdateDotViewModel(dotViewModel, dot);
+					}
+					else if (dot != null)
+					{
+						dotViewModel = CreateDotViewModel(dot);
+					}
+					
+					gridCache[x, y] = dotViewModel;
+				}
+			}
+
+			Grid = gridCache;
+			
+			GridUpdated?.Invoke();
 		}
 
 		public void DotsPressFinished()
 		{
 			_inputDispatcher.Dispatch(new ApplySelectionInput());
+		}
+
+		private void OnDotPressed(DotViewModel dotViewModel, bool isPressed)
+		{
+			if (isPressed)
+			{
+				_inputDispatcher.Dispatch(new DotSelectedInput(dotViewModel.Position));
+			}
+			else
+			{
+				DotsPressFinished();
+			}
+		}
+
+		private DotViewModel CreateDotViewModel(Dot dot)
+		{
+			var x = dot.Position.X;
+			var y = dot.Position.Y;
+			var dotViewModel = CreateViewModel<DotViewModel>();
+			dotViewModel.SetDotInfo(dot);
+			dotViewModel.SetDotPosition(dot.Position);
+			dotViewModel.SubscribeOnPressChangeEvent(OnDotPressed);
+			Grid[x, y] = dotViewModel;
+
+			return dotViewModel;
+		}
+
+		private void UpdateDotViewModel(DotViewModel dotViewModel, Dot dot)
+		{
+			dotViewModel.SetDotPosition(dot.Position);
+		}
+
+		private DotViewModel GetDotViewModel(Dot dot)
+		{
+			for (var x = 0; x < Width; x++)
+			{
+				for (var y = 0; y < Height; y++)
+				{
+					if (Grid[x, y]?.DotData == dot)
+					{
+						return Grid[x, y];
+					}
+				}
+			}
+
+			return null;
 		}
 	}
 }

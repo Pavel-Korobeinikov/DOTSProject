@@ -2,6 +2,7 @@
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 using ViewModel.Dots;
+using Color = UnityEngine.Color;
 
 namespace View.Dots
 {
@@ -25,20 +26,23 @@ namespace View.Dots
 
 		public void OnPointerDown(PointerEventData eventData)
 		{
-			// Method needed for work of OnPointerUp
+			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButton(0))
+			{
+				ViewModel.IsPressed = true;
+			}
 		}
 		
 		public void OnPointerEnter(PointerEventData eventData)
 		{
 			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButton(0))
 			{
-				ViewModel.Press();
+				ViewModel.IsPressed = true;
 			}
 		}
 
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			ViewModel.FinishPress();
+			ViewModel.IsPressed = false;
 		}
 
 		public void Kill()

@@ -1,7 +1,6 @@
 ﻿using Cysharp.Threading.Tasks;
 using UnityEngine;
 using View.Components;
-using View.Scenes;
 using ViewModel.Dots;
 
 namespace View.Dots
@@ -12,17 +11,21 @@ namespace View.Dots
 
 		protected override void SetChildViews()
 		{
-			AddChildView(startEndlessModeButtonView);
+			UniTask.Action(() => AddChildView(startEndlessModeButtonView)).Invoke();
 		}
-
-		protected override void Subscribe()
+		
+		protected override async UniTask Activate()
 		{
 			startEndlessModeButtonView.ButtonClicked += OnStartEndlessModeButtonClicked;
+
+			await UniTask.CompletedTask;
 		}
 
-		protected override void Unsubscribe()
+		protected override async UniTask Deactivate()
 		{
 			startEndlessModeButtonView.ButtonClicked -= OnStartEndlessModeButtonClicked;
+
+			await UniTask.CompletedTask;
 		}
 
 		private void OnStartEndlessModeButtonClicked()

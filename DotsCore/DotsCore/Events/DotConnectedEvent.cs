@@ -2,13 +2,11 @@
 {
 	public class DotConnectedEvent : ICoreEvent
 	{
-		public int X { get; }
-		public int Y { get; }
+		public Position Position { get; }
 
-		public DotConnectedEvent(int x, int y)
+		public DotConnectedEvent(Position position)
 		{
-			X = x;
-			Y = y;
+			Position = position;
 		}
 	}
 }

@@ -1,5 +1,4 @@
-﻿using System.Linq;
-using DotsCore.Inputs;
+﻿using DotsCore.Inputs;
 
 namespace DotsCore.InputProcessors
 {
@@ -9,15 +8,14 @@ namespace DotsCore.InputProcessors
 			DotSelectedInput input,
 			DotsConnectionAggregator dotsConnectionAggregator)
 		{
-			var lastSelectedDot = dotsConnectionAggregator.Connections.LastOrDefault();
-			var selectedDotPosition = new Position(input.X, input.Y);
-			if (lastSelectedDot == null || !lastSelectedDot.Position.Equals(selectedDotPosition))
+			var connections = dotsConnectionAggregator.Connections;
+			if (connections.Count > 1 && connections[connections.Count - 2].Position.Equals(input.Position))
 			{
-				dotsConnectionAggregator.TryAddConnection(selectedDotPosition);
+				dotsConnectionAggregator.TryRemoveConnection(input.Position);
 			}
 			else
 			{
-				dotsConnectionAggregator.TryRemoveConnection(selectedDotPosition);
+				dotsConnectionAggregator.TryAddConnection(input.Position);
 			}
 		}
 	}

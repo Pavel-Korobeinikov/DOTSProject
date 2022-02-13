@@ -14,7 +14,7 @@ namespace View.Dots
 		{
 			_dotsFieldView.SetViewModel(ViewModel.FieldViewModel);
 			
-			AddChildView(_dotsFieldView);
+			UniTask.Action(() => AddChildView(_dotsFieldView)).Invoke();
 		}
 
 		protected override void Initialize()

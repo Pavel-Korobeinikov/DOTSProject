@@ -2,13 +2,11 @@
 {
 	public class DotRemovedFromGridEvent : ICoreEvent
 	{
-		public int X { get; }
-		public int Y { get; }
+		public Position Position { get; }
 
-		public DotRemovedFromGridEvent(int x, int y)
+		public DotRemovedFromGridEvent(Position position)
 		{
-			X = x;
-			Y = y;
+			Position = position;
 		}
 	}
 }

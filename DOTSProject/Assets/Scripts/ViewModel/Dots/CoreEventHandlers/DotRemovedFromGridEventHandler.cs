@@ -15,7 +15,7 @@ namespace ViewModel.Dots.CoreEventHandlers
 		
 		public void Handle()
 		{
-			_dotsFieldViewModel.RemoveDotFromField(_coreEvent.X, _coreEvent.Y);
+			_dotsFieldViewModel.RemoveDotFromField(_coreEvent.Position);
 		}
 	}
 }

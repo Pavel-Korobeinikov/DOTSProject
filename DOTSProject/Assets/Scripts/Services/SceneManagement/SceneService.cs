@@ -38,7 +38,6 @@ namespace Services.SceneManagement
 			_taskLoadCache.Clear();
 			foreach (var activeScenePair in _activeScenes)
 			{
-				activeScenePair.Value.UnsubscribeWithChildViews();
 				var deactivateTask = activeScenePair.Value.DeactivateWithChildViews();
 				_taskLoadCache.Add(deactivateTask);
 			}
@@ -86,7 +85,6 @@ namespace Services.SceneManagement
 
 			viewModel.InitializeWithChildViews();
 			viewModel.SetDependencies();
-			viewModel.SubscribeWithChildViews();
 			
 			_taskLoadCache.Clear();
 			var activateTask = viewModel.ActivateWithChildViews();
