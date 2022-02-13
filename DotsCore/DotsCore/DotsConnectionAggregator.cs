@@ -55,14 +55,17 @@ namespace DotsCore
 				foreach (var dot in _connections)
 				{
 					_field.RemoveDotFromGrid(dot.Position);
-					_field.Fall();
-					_field.Fill();
 				}
+				
+				_field.Fall();
+				_field.Fill();
 			}
 			else
 			{
 				_connections.Clear();
 			}
+			
+			_eventsNotifier.RiseEvent(new DotsConnectionClearedEvent());
 		}
 	}
 }

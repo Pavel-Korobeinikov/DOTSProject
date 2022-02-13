@@ -22,6 +22,8 @@ namespace ViewModel.Dots
 					return new GridFilledEventHandler(gridGeneratedEvent, fieldViewModel);
 				case GridGeneratedEvent gridGeneratedEvent:
 					return new GridGeneratedEventHandler(gridGeneratedEvent, fieldViewModel);
+				case DotsConnectionClearedEvent gridGeneratedEvent:
+					return new DotsConnectionClearedEventHandler(gridGeneratedEvent, fieldViewModel);
 				default:
 					throw new Exception("Event handler is missing.");
 			}

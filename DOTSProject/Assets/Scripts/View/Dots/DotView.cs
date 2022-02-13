@@ -8,10 +8,19 @@ namespace View.Dots
 	public class DotView : BaseView<DotViewModel>, IPointerDownHandler, IPointerEnterHandler, IPointerUpHandler
 	{
 		[SerializeField] private Image _image = default;
+
+		private Vector2 _preferredPosition;
 		
 		protected override void Initialize()
 		{
 			_image.color = new Color(ViewModel.R, ViewModel.G, ViewModel.B);
+		}
+
+		public void SetPreferredPosition(Vector2 position)
+		{
+			_preferredPosition = position;
+
+			GetComponent<RectTransform>().anchoredPosition = _preferredPosition;
 		}
 
 		public void OnPointerDown(PointerEventData eventData)
