@@ -12,7 +12,8 @@ namespace View.Dots
 	{
 		[Header("View Options")] 
 		[SerializeField] private float _fallSpeed = default;
-		[SerializeField] private float _delayByRowPercent = default;
+		[SerializeField] private float _dropTimeDelay = default;
+		[SerializeField] private float _dropOvershoot = default;
 		[Header("Dependencies")]
 		[SerializeField] private Image _image = default;
 
@@ -40,11 +41,12 @@ namespace View.Dots
 		{
 			_preferredPosition = position;
 
+			var delay = _dropTimeDelay / (ViewModel.Position.Y + 1);
 			_moveTween = DOTween.To(
 				() => _rectTransform.anchoredPosition,
 				currentPosition => _rectTransform.anchoredPosition = currentPosition,
 				position,
-				_fallSpeed).SetEase(Ease.OutQuad).SetDelay(ViewModel.Position.Y * _delayByRowPercent);
+				_fallSpeed).SetEase(Ease.OutBack, _dropOvershoot).SetDelay(delay);
 			_moveTween.Play();
 		}
 
