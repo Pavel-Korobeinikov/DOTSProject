@@ -8,13 +8,17 @@ namespace View.Dots
 {
 	public class DotsSceneView : SceneView<DotsSceneViewModel>
 	{
-		[SerializeField] private DotsFieldView _dotsFieldView = default;
+		[SerializeField] private DotsFieldView _fieldView = default;
+		[SerializeField] private DotsConnectionAggregatorView _connectionAggregatorView = default;
 		
 		protected override void SetChildViews()
 		{
-			_dotsFieldView.SetViewModel(ViewModel.FieldViewModel);
+			_fieldView.SetViewModel(ViewModel.FieldViewModel);
+			_connectionAggregatorView.SetViewModel(ViewModel.ConnectionAggregatorViewModel);
+			_connectionAggregatorView.Connect(_fieldView);
 			
-			UniTask.Action(() => AddChildView(_dotsFieldView)).Invoke();
+			UniTask.Action(() => AddChildView(_fieldView)).Invoke();
+			UniTask.Action(() => AddChildView(_connectionAggregatorView)).Invoke();
 		}
 
 		protected override void Initialize()

@@ -1,4 +1,5 @@
-﻿using DotsCore.Events;
+﻿using Application.MessageLog;
+using DotsCore.Events;
 
 namespace ViewModel.Dots.CoreEventHandlers
 {

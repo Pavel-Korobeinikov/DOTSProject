@@ -1,4 +1,4 @@
-﻿using System;
+﻿using Application.MessageLog;
 using DG.Tweening;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -52,7 +52,7 @@ namespace View.Dots
 		{
 			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButton(0))
 			{
-				ViewModel.IsPressed = true;
+				ViewModel.Press();
 			}
 		}
 		
@@ -60,13 +60,13 @@ namespace View.Dots
 		{
 			if (Input.touches.Length > 0 && Input.GetTouch(0).phase == TouchPhase.Moved || Input.GetMouseButton(0))
 			{
-				ViewModel.IsPressed = true;
+				ViewModel.Press();
 			}
 		}
 
 		public void OnPointerUp(PointerEventData eventData)
 		{
-			ViewModel.IsPressed = false;
+			ViewModel.PressFinish();
 		}
 
 		public void Kill()

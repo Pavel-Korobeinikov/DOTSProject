@@ -5,17 +5,17 @@ namespace ViewModel.Dots.CoreEventHandlers
 	public class DotDisconnectedEventHandler : ICoreEventHandler
 	{
 		private readonly DotDisconnectedEvent _coreEvent;
-		private readonly DotsFieldViewModel _dotsFieldViewModel;
+		private readonly DotsConnectionAggregatorViewModel _connectionAggregatorViewModel;
 
-		public DotDisconnectedEventHandler(DotDisconnectedEvent coreEvent, DotsFieldViewModel dotsFieldViewModel)
+		public DotDisconnectedEventHandler(DotDisconnectedEvent coreEvent, DotsConnectionAggregatorViewModel connectionAggregatorViewModel)
 		{
 			_coreEvent = coreEvent;
-			_dotsFieldViewModel = dotsFieldViewModel;
+			_connectionAggregatorViewModel = connectionAggregatorViewModel;
 		}
 
 		public void Handle()
 		{
-			//TODO: Handle
+			_connectionAggregatorViewModel.RemoveDotConnection(_coreEvent.Position);
 		}
 	}
 }

@@ -4,18 +4,16 @@ namespace ViewModel.Dots.CoreEventHandlers
 {
 	public class DotsConnectionClearedEventHandler : ICoreEventHandler
 	{
-		private readonly DotsConnectionClearedEvent _coreEvent;
-		private readonly DotsFieldViewModel _dotsFieldViewModel;
+		private readonly DotsConnectionAggregatorViewModel _connectionAggregatorViewModel;
 
-		public DotsConnectionClearedEventHandler(DotsConnectionClearedEvent coreEvent, DotsFieldViewModel dotsFieldViewModel)
+		public DotsConnectionClearedEventHandler(DotsConnectionAggregatorViewModel connectionAggregatorViewModel)
 		{
-			_coreEvent = coreEvent;
-			_dotsFieldViewModel = dotsFieldViewModel;
+			_connectionAggregatorViewModel = connectionAggregatorViewModel;
 		}
 
 		public void Handle()
 		{
-			
+			_connectionAggregatorViewModel.ClearConnections();
 		}
 	}
 }

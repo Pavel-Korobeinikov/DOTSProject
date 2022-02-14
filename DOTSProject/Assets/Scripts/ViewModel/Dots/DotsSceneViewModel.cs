@@ -12,6 +12,7 @@ namespace ViewModel.Dots
 	public class DotsSceneViewModel : BaseViewModel
 	{
 		public DotsFieldViewModel FieldViewModel { get; private set; }
+		public DotsConnectionAggregatorViewModel ConnectionAggregatorViewModel { get; private set; }
 
 		private DotsGame _gameCore;
 		private CoreInputDispatcher _inputDispatcher;
@@ -53,8 +54,8 @@ namespace ViewModel.Dots
 
 		private void InitializeChildViewModels()
 		{
-			FieldViewModel = CreateViewModel<DotsFieldViewModel>();
-			FieldViewModel.SetCoreInputDispatcher(_inputDispatcher);
+			FieldViewModel = CreateViewModel(() => new DotsFieldViewModel(_inputDispatcher));
+			ConnectionAggregatorViewModel = CreateViewModel(() => new DotsConnectionAggregatorViewModel(FieldViewModel));
 		}
 
 		private void LaunchGameCore()
@@ -66,7 +67,11 @@ namespace ViewModel.Dots
 		{
 			MessageLogger.Log($"Event Received: {coreEvent}");
 			
-			var eventHandler = GameCoreEventsHandlerFactory.GetEventHandler(coreEvent, FieldViewModel);
+			var eventHandler = GameCoreEventsHandlerFactory.GetEventHandler(
+				coreEvent,
+				FieldViewModel,
+				ConnectionAggregatorViewModel);
+			
 			eventHandler.Handle();
 		}
 	}

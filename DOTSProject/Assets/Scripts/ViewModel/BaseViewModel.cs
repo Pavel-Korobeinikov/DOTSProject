@@ -1,4 +1,5 @@
-﻿using Model;
+﻿using System;
+using Model;
 using Services;
 
 namespace ViewModel
@@ -8,15 +9,15 @@ namespace ViewModel
 		protected GameModel GameModel;
 		protected IServiceManager ServiceManager;
 	
-		public void Initialize(GameModel gameModel, IServiceManager serviceManager)
+		public virtual void Initialize(GameModel gameModel, IServiceManager serviceManager)
 		{
 			GameModel = gameModel;
 			ServiceManager = serviceManager;
 		}
 
-		protected TViewModel CreateViewModel<TViewModel>() where TViewModel : BaseViewModel, new()
+		protected TViewModel CreateViewModel<TViewModel>(Func<TViewModel> createFunc) where TViewModel : BaseViewModel
 		{
-			var viewModel = new TViewModel();
+			var viewModel = createFunc.Invoke();
 			viewModel.Initialize(GameModel, ServiceManager);
 
 			return viewModel;

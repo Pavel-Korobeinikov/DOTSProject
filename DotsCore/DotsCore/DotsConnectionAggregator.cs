@@ -10,6 +10,7 @@ namespace DotsCore
 		private readonly DotsField _field;
 		private readonly EventsNotifier _eventsNotifier;
 		private readonly List<Dot> _connections = new List<Dot>();
+		private readonly DotsConnectionCombiner _dotsConnectionCombiner;
 
 		public List<Dot> Connections => _connections;
 
@@ -17,6 +18,8 @@ namespace DotsCore
 		{
 			_field = field;
 			_eventsNotifier = eventsNotifier;
+
+			_dotsConnectionCombiner = new DotsConnectionCombiner(_field, _eventsNotifier);
 		}
 
 		public void TryAddConnection(Position toPosition)
@@ -25,6 +28,7 @@ namespace DotsCore
 			var toDotConnection = _field.Grid[toPosition.X, toPosition.Y];
 
 			if (fromDotConnection == null ||
+			    !fromDotConnection.Position.Equals(toPosition) &&
 			    fromDotConnection.Color.Name == toDotConnection.Color.Name &&
 			    Math.Abs(fromDotConnection.Position.X - toPosition.X) <= 1 && 
 			    Math.Abs(fromDotConnection.Position.Y - toPosition.Y) <= 1 &&
@@ -38,20 +42,22 @@ namespace DotsCore
 
 		public void TryRemoveConnection(Position fromPosition)
 		{
-			var lastDotConnection = _field.Grid[fromPosition.X, fromPosition.Y];
+			var previousDotConnection = _field.Grid[fromPosition.X, fromPosition.Y];
 			
 			if (_connections.Count > 1 &&
-			    _connections[_connections.Count - 2] == lastDotConnection)
+			    _connections[_connections.Count - 2] == previousDotConnection)
 			{
-				_connections.Remove(lastDotConnection);
+				var currentDotConnection = _connections.Last();
+				_connections.Remove(currentDotConnection);
 				
-				_eventsNotifier.RiseEvent(new DotDisconnectedEvent(fromPosition));
+				_eventsNotifier.RiseEvent(new DotDisconnectedEvent(currentDotConnection.Position));
 			}
 		}
 		
 		public void ApplyConnections()
 		{
-			if (_connections.Count > 1)
+			if (_connections.Count > 1 &&
+			    !_dotsConnectionCombiner.TryCombineDots(_connections))
 			{
 				foreach (var dot in _connections)
 				{

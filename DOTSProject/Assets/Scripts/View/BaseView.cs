@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Application.MessageLog;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
@@ -181,7 +180,7 @@ namespace View
 		}
 	}
 	
-	public class BaseView<TViewModel> : BaseView, IViewModelHolder where TViewModel : BaseViewModel, new()
+	public class BaseView<TViewModel> : BaseView, IViewModelHolder where TViewModel : BaseViewModel
     {
 	    public TViewModel ViewModel { get; private set; }
 

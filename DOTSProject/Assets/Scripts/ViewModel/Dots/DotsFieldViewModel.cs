@@ -13,9 +13,9 @@ namespace ViewModel.Dots
 		public int Height { get; private set; }
 		public DotViewModel[,] Grid { get; private set; }
 
-		private CoreInputDispatcher _inputDispatcher;
+		private readonly CoreInputDispatcher _inputDispatcher;
 
-		public void SetCoreInputDispatcher(CoreInputDispatcher inputDispatcher)
+		public DotsFieldViewModel(CoreInputDispatcher inputDispatcher)
 		{
 			_inputDispatcher = inputDispatcher;
 		}
@@ -79,29 +79,27 @@ namespace ViewModel.Dots
 			_inputDispatcher.Dispatch(new ApplySelectionInput());
 		}
 
-		private void OnDotPressed(DotViewModel dotViewModel, bool isPressed)
-		{
-			if (isPressed)
-			{
-				_inputDispatcher.Dispatch(new DotSelectedInput(dotViewModel.Position));
-			}
-			else
-			{
-				DotsPressFinished();
-			}
-		}
-
 		private DotViewModel CreateDotViewModel(Dot dot)
 		{
 			var x = dot.Position.X;
 			var y = dot.Position.Y;
-			var dotViewModel = CreateViewModel<DotViewModel>();
-			dotViewModel.SetDotInfo(dot);
+			var dotViewModel = CreateViewModel(() => new DotViewModel(dot));
 			dotViewModel.SetDotPosition(dot.Position);
-			dotViewModel.SubscribeOnPressChangeEvent(OnDotPressed);
+			dotViewModel.Pressed += OnDotPressed;
+			dotViewModel.PressFinished += OnDotPressFinished;
 			Grid[x, y] = dotViewModel;
 
 			return dotViewModel;
+		}
+
+		private void OnDotPressed(DotViewModel dotViewModel)
+		{
+			_inputDispatcher.Dispatch(new DotSelectedInput(dotViewModel.Position));
+		}
+
+		private void OnDotPressFinished(DotViewModel dotViewModel)
+		{
+			DotsPressFinished();
 		}
 
 		private void UpdateDotViewModel(DotViewModel dotViewModel, Dot dot)

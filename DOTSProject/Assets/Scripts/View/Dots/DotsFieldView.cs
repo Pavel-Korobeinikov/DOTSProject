@@ -16,7 +16,7 @@ namespace View.Dots
 		[SerializeField] private Transform _dotsPlaceholder = default;
 		[SerializeField] private DotView _dotPrefab = default;
 
-		private DotView[,] Grid { get; set; }
+		public DotView[,] Grid { get; set; }
 		
 		private float _dotWidth;
 		private float _dotHeight;
@@ -67,8 +67,8 @@ namespace View.Dots
 			{
 				for (var y = 0; y < ViewModel.Height; y++)
 				{
-					var positionX = (_dotHorizontalSpacing * x) + (_dotWidth * x);
-					var positionY = -(_dotVerticalSpacing * y) - (_dotHeight * y);
+					var positionX = (_dotWidth / 2f) + (_dotHorizontalSpacing * x) + (_dotWidth * x);
+					var positionY = -(_dotHeight / 2f) - (_dotVerticalSpacing * y) - (_dotHeight * y);
 					
 					_gridPositions[x, y] = new Vector2(positionX, positionY);
 				}
