@@ -120,6 +120,8 @@ namespace DotsCore
 				}
 			}
 			
+			//TODO: Add check on reshuffle
+			
 			_eventsNotifier.RiseEvent(new GridFilledEvent(_grid));
 		}
 	}
